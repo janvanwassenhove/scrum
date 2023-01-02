@@ -1,0 +1,16 @@
+#SPRINTGOAL Deliver Scrum programming executing math logic
+
+USER STORY "OddNumber"
+
+    #REVIEW get number input
+    ASK numberForInput
+
+    IF numberForInput % 2 = 0
+        SAY numberForInput + " is an even number!"
+    ELSE
+        SAY numberForInput + " is an odd number!"
+    END IF
+
+END OF STORY
+
+OddNumber USING []

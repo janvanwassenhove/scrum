@@ -1,0 +1,11 @@
+#SPRINTGOAL Deliver Scrum Code using text input
+
+USER STORY "TextInput"
+
+    #REVIEW get text input
+    ASK textForInput
+    SAY textForInput
+
+END OF STORY
+
+TextInput USING []

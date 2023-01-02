@@ -1,0 +1,40 @@
+#SPRINTGOAL combining multiple stories to sort a backlog array
+
+EPIC "Sorting"
+    USER STORY "bubbleSort" USING [ list, listLength ]
+        I WANT TO ITERATE i FOR RANGE 0 TILL listLength - 1
+            I WANT TO ITERATE j FOR RANGE 0 TILL listLength - i - 1
+                IF list{j+1} < list{j}
+                    temp IS list{j}
+                    list{j} IS list{j + 1}
+                    list{j + 1} IS temp
+                END IF
+           END OF ITERATION
+        END OF ITERATION
+    END OF STORY
+
+    USER STORY "verifyIfSorted" USING [ list, listLength ]
+        I WANT TO ITERATE i FOR RANGE 0 TILL listLength - 1
+            IF list{i} > list{i+1}
+                RETURN ANSWER false
+            END IF
+        END OF ITERATION
+        RETURN ANSWER true
+    END OF STORY
+
+    USER STORY "SortBacklog" USING [backlog, backlogLength]
+        SAY backlog
+        SAY verifyIfSorted USING [backlog,backlogLength]
+
+        bubbleSort USING [backlog,backlogLength]
+        SAY backlog
+        SAY verifyIfSorted USING [backlog,backlogLength]
+    END OF STORY
+END OF EPIC
+
+SortingEpic IS NEW Sorting
+#REVIEW sorting our backlog
+backlog IS {-1, 40, -3, 20}
+backlogLength IS 4
+SortingEpic::SortBacklog USING [backlog, backlogLength]
+
