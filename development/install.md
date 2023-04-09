@@ -18,5 +18,5 @@ Keep in mind running this in Powershell you'll need to run it with:
 ```
 
 ##### Local installation
-If you want to run the code from anywhere, you can create a SCRUM_HOME variable and add it to
+If you want to run the code from anywhere, you can create a SCRUM_HOME variable and add it to the system varaiables.
 Set the SCRUM_HOME environment variable pointing to your SCRUM installation and add this variable into your PATH variable adding %SCRUM_HOME%.
