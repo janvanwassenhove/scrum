@@ -40,17 +40,17 @@ The [SCRUM Examples](development/examples) can be executed and debugged using th
 The project is build upon JAVA 17 (LTS).
 
 ### Running locally via command line
-To run SCRUM programs locally, the scrum distributable can be used.
+To run SCRUM programs locally, the scrum distributable can be used (make sure to have a recent java version installed). 
 This can either be generated running a maven build (distribution will be generated within the /development directory), or directly downloading the scrum.zip distributable.
 
 To run a program from the repository code, navigate to [Development](development) and run following code via CLI:
 ```
-scrum examples/HelloWorld.scum
+scrum examples/HelloWorld.scrum
 ```
 You can use the [SCRUM Examples](development/examples) for testing purposes.
 Keep in mind running this in Powershell you'll need to run it with:
 ```
-.\scrum examples/HelloWorld.scum
+.\scrum examples/HelloWorld.scrum
 ```
 
 ##### Local installation
