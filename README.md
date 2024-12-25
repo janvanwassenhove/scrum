@@ -37,7 +37,7 @@ Example code files can be found within [SCRUM Examples](development/examples).
 
 ### Running SCRUM code via unit test.
 The [SCRUM Examples](development/examples) can be executed and debugged using the [ScrumLanguageTest](test/java/com/mityjohn/scrumlanguage).
-The project is build upon JAVA 17 (LTS).
+The project is build upon JAVA 21 (LTS).
 
 ### Running locally via command line
 To run SCRUM programs locally, the scrum distributable can be used (make sure to have a recent java version installed). 
