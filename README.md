@@ -174,3 +174,5 @@ Example of iteration statement:
 The base code started from a sample project of @alexandermakeev [toy-language](https://github.com/alexandermakeev/toy-language).
 A very fine starting base to get a good comprehension of developing a new programming language.
 The original version of the SCRUM programming language was developed and designed by @janvanwassenhove (aka [mITy.John](www.mityjohn.com) - follow **mITy.John** on Instagram).
+
+Check out the blog post on [mITy.John](www.mityjohn.com) for more information on the development of the SCRUM programming language or other projects.
