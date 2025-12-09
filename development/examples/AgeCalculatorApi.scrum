@@ -1,0 +1,99 @@
+#SPRINTGOAL Build an Age Calculator API and demonstrate calling it
+
+#REVIEW Define the Age Calculator API with an endpoint
+I WANT TO DEFINE API "AgeCalculatorApi"
+    BASE IS "/api/calculator"
+
+    I WANT TO DEFINE ENDPOINT "CalculateAge"
+        METHOD IS "GET"
+        PATH IS "/age/{birthYear}"
+        QUERY_PARAMS ARE { "currentYear" }
+        RETURNS IS "AgeResult"
+    END OF ENDPOINT
+
+    I WANT TO DEFINE ENDPOINT "GetLifeStage"
+        METHOD IS "GET"
+        PATH IS "/lifestage/{age}"
+        RETURNS IS "String"
+    END OF ENDPOINT
+
+END OF API
+
+#REVIEW Create a function to calculate age from birth year
+USER STORY "CalculateAgeFromYear" USING [birthYear, currentYear]
+    
+    age IS currentYear - birthYear
+    
+    SAY "Birth Year: "
+    SAY birthYear
+    SAY "Current Year: "
+    SAY currentYear
+    SAY "Calculated Age: "
+    SAY age
+    
+    RETURN ANSWER age
+    
+END OF STORY
+
+#REVIEW Create a function to determine life stage based on age
+USER STORY "DetermineLifeStage" USING [age]
+    
+    lifeStage IS "Unknown"
+    
+    IF age < 13
+        lifeStage IS "Child"
+    ELSEIF age < 20
+        lifeStage IS "Teenager"
+    ELSEIF age < 65
+        lifeStage IS "Adult"
+    ELSE
+        lifeStage IS "Senior"
+    END IF
+    
+    RETURN ANSWER lifeStage
+    
+END OF STORY
+
+#REVIEW Main program - simulate API usage with user input
+SAY "=== Age Calculator API Demo ==="
+SAY ""
+
+#REVIEW Get birth year from user
+SAY "Enter your birth year:"
+ASK userBirthYear
+
+#REVIEW Get current year from user
+SAY "Enter current year (e.g., 2024):"
+ASK userCurrentYear
+
+#REVIEW Simulate calling the CalculateAge endpoint
+SAY ""
+SAY "--- Simulating API Call: GET /api/calculator/age/"
+SAY userBirthYear
+SAY "?currentYear="
+SAY userCurrentYear
+SAY "---"
+SAY ""
+
+#REVIEW Call the age calculation function (simulating API endpoint logic)
+calculatedAge IS CalculateAgeFromYear USING [userBirthYear, userCurrentYear]
+
+#REVIEW Simulate calling the GetLifeStage endpoint
+SAY ""
+SAY "--- Simulating API Call: GET /api/calculator/lifestage/"
+SAY calculatedAge
+SAY "---"
+SAY ""
+
+#REVIEW Call the life stage determination function (simulating API endpoint logic)
+lifeStageResult IS DetermineLifeStage USING [calculatedAge]
+
+#REVIEW Display final results
+SAY ""
+SAY "=== API Response ==="
+SAY "Age: "
+SAY calculatedAge
+SAY "Life Stage: "
+SAY lifeStageResult
+SAY ""
+SAY "Thank you for using the Age Calculator API!"

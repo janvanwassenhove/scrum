@@ -1,0 +1,4 @@
+a IS 10
+b IS 0
+result IS a / b
+SAY result

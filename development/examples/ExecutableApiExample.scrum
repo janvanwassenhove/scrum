@@ -1,0 +1,47 @@
+#SPRINTGOAL Example demonstrating executable API endpoints with WHEN REQUEST blocks
+
+I WANT TO DEFINE API "Greeting API"
+    BASE IS "/api/v1/greetings"
+
+    I WANT TO DEFINE ENDPOINT "Greet User"
+        METHOD IS "GET"
+        PATH IS "/hello/{name}"
+        RETURNS IS "String"
+        
+        WHEN REQUEST
+            #REVIEW: Display a greeting message
+            SAY "┌─────────────────────────┐"
+            SAY "│   Greeting Endpoint     │"
+            SAY "├─────────────────────────┤"
+            SAY "│ Endpoint was called!    │"
+            SAY "│ Path: /hello/{name}     │"
+            SAY "└─────────────────────────┘"
+        END WHEN
+    END OF ENDPOINT
+    
+    I WANT TO DEFINE ENDPOINT "Welcome Message"
+        METHOD IS "GET"
+        PATH IS "/welcome/{user}/{role}"
+        RETURNS IS "String"
+        
+        WHEN REQUEST
+            #REVIEW: Display welcome message
+            SAY "┌──────────────────────────┐"
+            SAY "│   Welcome Endpoint       │"
+            SAY "├──────────────────────────┤"
+            SAY "│ Path: /welcome/...       │"
+            SAY "│ Method: GET              │"
+            SAY "│ Endpoint executed!       │"
+            SAY "└──────────────────────────┘"
+        END WHEN
+    END OF ENDPOINT
+
+END OF API
+
+SAY "Greeting API with executable endpoints defined successfully!"
+SAY ""
+SAY "The API has 2 endpoints with WHEN REQUEST blocks:"
+SAY "  1. GET /hello/{name}"
+SAY "  2. GET /welcome/{user}/{role}"
+SAY ""
+SAY "Each endpoint contains executable logic that runs when invoked."

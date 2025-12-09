@@ -189,7 +189,7 @@ class LexicalParserTest {
         String source = "EPIC \"Person\" USING [ name, age ]\n" +
                         "END OF EPIC\n" +
                         "person IS NEW Person USING [\"mITy John\", 45]\n" +
-                        "SAY person :: name + \" IS \" + person :: age + \" years old\"";
+                        "SAY person :: name AND \" IS \" AND person :: age AND \" years old\"";
         LexicalParser parser = new LexicalParser(source);
         List<Token> tokens = parser.parse();
 
@@ -293,7 +293,7 @@ class LexicalParserTest {
         assertEquals(4, tokens.get(count).getRow());
 
         assertEquals(TokenType.Operator, tokens.get(++count).getType());
-        assertEquals("+", tokens.get(count).getValue());
+        assertEquals("AND", tokens.get(count).getValue());
         assertEquals(4, tokens.get(count).getRow());
 
         assertEquals(TokenType.Text, tokens.get(++count).getType());
@@ -301,7 +301,7 @@ class LexicalParserTest {
         assertEquals(4, tokens.get(count).getRow());
 
         assertEquals(TokenType.Operator, tokens.get(++count).getType());
-        assertEquals("+", tokens.get(count).getValue());
+        assertEquals("AND", tokens.get(count).getValue());
         assertEquals(4, tokens.get(count).getRow());
 
         assertEquals(TokenType.Variable, tokens.get(++count).getType());
@@ -317,7 +317,7 @@ class LexicalParserTest {
         assertEquals(4, tokens.get(count).getRow());
 
         assertEquals(TokenType.Operator, tokens.get(++count).getType());
-        assertEquals("+", tokens.get(count).getValue());
+        assertEquals("AND", tokens.get(count).getValue());
         assertEquals(4, tokens.get(count).getRow());
 
         assertEquals(TokenType.Text, tokens.get(++count).getType());

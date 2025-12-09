@@ -1,6 +1,7 @@
 package scrum;
 
 import lombok.SneakyThrows;
+import scrum.context.ExecutionContext;
 import scrum.context.MemoryContext;
 import scrum.context.definition.DefinitionContext;
 import scrum.statement.CompositeStatement;
@@ -15,18 +16,27 @@ public class ScrumLanguage {
     @SneakyThrows
     public void execute(Path path) {
         String source = Files.readString(path);
-        LexicalParser lexicalParser = new LexicalParser(source);
-        List<Token> tokens = lexicalParser.parse();
-
-        DefinitionContext.pushScope(DefinitionContext.newScope());
-        MemoryContext.pushScope(MemoryContext.newScope());
+        String fileName = path.getFileName().toString();
+        
+        // Initialize execution context
+        ExecutionContext.initialize(fileName, source);
+        
         try {
-            CompositeStatement statement = new CompositeStatement();
-            StatementParser.parse(tokens, statement);
-            statement.execute();
+            LexicalParser lexicalParser = new LexicalParser(source);
+            List<Token> tokens = lexicalParser.parse();
+
+            DefinitionContext.pushScope(DefinitionContext.newScope());
+            MemoryContext.pushScope(MemoryContext.newScope());
+            try {
+                CompositeStatement statement = new CompositeStatement();
+                StatementParser.parse(tokens, statement);
+                statement.execute();
+            } finally {
+                DefinitionContext.endScope();
+                MemoryContext.endScope();
+            }
         } finally {
-            DefinitionContext.endScope();
-            MemoryContext.endScope();
+            ExecutionContext.clear();
         }
     }
 }

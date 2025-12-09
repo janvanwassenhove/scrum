@@ -6,6 +6,8 @@ import scrum.context.definition.ClassDefinition;
 import scrum.context.definition.DefinitionContext;
 import scrum.context.definition.DefinitionScope;
 import scrum.context.definition.FunctionDefinition;
+import scrum.context.definition.ApiDefinition;
+import scrum.context.definition.EndpointDefinition;
 import scrum.exception.SyntaxException;
 import scrum.expression.Expression;
 import scrum.expression.ExpressionReader;
@@ -54,7 +56,7 @@ public class StatementParser {
         if (tokens.peek(TokenType.Operator, TokenType.Variable, TokenType.This))
             return true;
         if (tokens.peek(TokenType.Keyword)) {
-            return !tokens.peek(TokenType.Keyword, "ELSE", "ELSEIF","end", "END OF STORY", "END OF EPIC", "END IF", "END OF ITERATION");
+            return !tokens.peek(TokenType.Keyword, "ELSE", "ELSEIF","end", "END OF STORY", "END OF EPIC", "END IF", "END OF ITERATION", "END OF API", "END OF ENDPOINT", "END WHEN");
         }
         return false;
     }
@@ -98,6 +100,9 @@ public class StatementParser {
                 break;
             case "USER STORY":
                 parseFunctionDefinition();
+                break;
+            case "I WANT TO DEFINE":
+                parseDefinition();
                 break;
             case "RETURN ANSWER":
                 parseReturnStatement();
@@ -280,5 +285,144 @@ public class StatementParser {
     private void parseNextStatement() {
         NextStatement statement = new NextStatement();
         compositeStatement.addStatement(statement);
+    }
+
+    private void parseDefinition() {
+        Token nextToken = tokens.next(TokenType.Keyword);
+        if (nextToken.getValue().equals("API")) {
+            parseApiDefinition();
+        } else if (nextToken.getValue().equals("ENDPOINT")) {
+            parseEndpointDefinition();
+        } else {
+            throw new SyntaxException(String.format("Expected API or ENDPOINT after 'I WANT TO DEFINE', got: %s", nextToken.getValue()));
+        }
+    }
+
+    private void parseApiDefinition() {
+        String apiName = tokens.next(TokenType.Text).getValue().replace(" ", "_");
+        
+        // Parse BASE IS "path"
+        String basePath = "";
+        if (tokens.peek(TokenType.Keyword, "BASE")) {
+            tokens.next(TokenType.Keyword, "BASE");
+            tokens.next(TokenType.Operator, "IS");
+            basePath = tokens.next(TokenType.Text).getValue();
+        }
+        
+        // Create API definition
+        ApiStatement apiStatement = new ApiStatement();
+        DefinitionScope apiScope = DefinitionContext.newScope();
+        ApiDefinition apiDefinition = new ApiDefinition(apiName, basePath, apiStatement, apiScope);
+        DefinitionContext.getScope().addApi(apiDefinition);
+        
+        // Parse API body (including nested endpoints)
+        StatementParser.parse(this, apiStatement, apiScope);
+        
+        tokens.next(TokenType.Keyword, "END OF API");
+    }
+
+    private void parseEndpointDefinition() {
+        String endpointName = tokens.next(TokenType.Text).getValue().replace(" ", "_");
+        
+        String method = "";
+        String path = "";
+        String queryParams = "";
+        String returnType = "";
+        
+        // Parse endpoint properties
+        while (!tokens.peek(TokenType.Keyword, "END OF ENDPOINT") && !tokens.peek(TokenType.Keyword, "WHEN")) {
+            if (tokens.peek(TokenType.Keyword, "METHOD")) {
+                tokens.next(TokenType.Keyword, "METHOD");
+                tokens.next(TokenType.Operator, "IS");
+                method = tokens.next(TokenType.Text).getValue();
+            } else if (tokens.peek(TokenType.Keyword, "PATH")) {
+                tokens.next(TokenType.Keyword, "PATH");
+                tokens.next(TokenType.Operator, "IS");
+                path = tokens.next(TokenType.Text).getValue();
+            } else if (tokens.peek(TokenType.Keyword, "QUERY_PARAMS")) {
+                tokens.next(TokenType.Keyword, "QUERY_PARAMS");
+                // Handle both "IS" and "ARE"
+                Token operator = tokens.next(TokenType.Operator, TokenType.Keyword);
+                if (!operator.getValue().equals("IS") && !operator.getValue().equals("ARE")) {
+                    throw new SyntaxException("Expected IS or ARE after QUERY_PARAMS");
+                }
+                // Parse array syntax { "param1", "param2" }
+                tokens.next(TokenType.GroupDivider, "{");
+                StringBuilder params = new StringBuilder();
+                while (!tokens.peek(TokenType.GroupDivider, "}")) {
+                    if (params.length() > 0) {
+                        params.append(", ");
+                    }
+                    params.append(tokens.next(TokenType.Text).getValue());
+                    if (tokens.peek(TokenType.GroupDivider, ",")) {
+                        tokens.next();
+                    }
+                }
+                tokens.next(TokenType.GroupDivider, "}");
+                queryParams = params.toString();
+            } else if (tokens.peek(TokenType.Keyword, "RETURNS")) {
+                tokens.next(TokenType.Keyword, "RETURNS");
+                tokens.next(TokenType.Operator, "IS");
+                returnType = tokens.next(TokenType.Text).getValue();
+            } else {
+                Token unexpectedToken = tokens.next(TokenType.Keyword, TokenType.Operator, TokenType.Text);
+                throw new SyntaxException(String.format("Unexpected token in endpoint definition: %s", unexpectedToken.getValue()));
+            }
+        }
+        
+        // Check for WHEN REQUEST block (executable endpoint)
+        if (tokens.peek(TokenType.Keyword, "WHEN")) {
+            tokens.next(TokenType.Keyword, "WHEN");
+            tokens.next(TokenType.Keyword, "REQUEST");
+            
+            // Create executable endpoint with handler body
+            List<String> queryParamsList = new ArrayList<>();
+            if (!queryParams.isEmpty()) {
+                for (String param : queryParams.split(", ")) {
+                    queryParamsList.add(param);
+                }
+            }
+            
+            // Create a new definition scope for the endpoint handler
+            DefinitionScope handlerScope = DefinitionContext.newScope();
+            
+            // Create executable endpoint statement
+            ExecutableEndpointStatement executableEndpoint = new ExecutableEndpointStatement(
+                endpointName, method, path, queryParams, returnType, handlerScope
+            );
+            
+            // Parse statements within WHEN REQUEST block
+            StatementParser.parse(this, executableEndpoint, handlerScope);
+            
+            tokens.next(TokenType.Keyword, "END WHEN");
+            tokens.next(TokenType.Keyword, "END OF ENDPOINT");
+            
+            compositeStatement.addStatement(executableEndpoint);
+            
+            // Create endpoint definition
+            EndpointDefinition endpointDefinition = new EndpointDefinition(
+                endpointName, method, path, queryParamsList, returnType
+            );
+        } else {
+            // Declarative endpoint (no handler)
+            tokens.next(TokenType.Keyword, "END OF ENDPOINT");
+            
+            // Create endpoint statement and add to composite
+            EndpointStatement endpointStatement = new EndpointStatement(endpointName, method, path, queryParams, returnType);
+            compositeStatement.addStatement(endpointStatement);
+            
+            // Create endpoint definition and add to current API (if we're inside an API definition)
+            List<String> queryParamsList = new ArrayList<>();
+            if (!queryParams.isEmpty()) {
+                for (String param : queryParams.split(", ")) {
+                    queryParamsList.add(param);
+                }
+            }
+            EndpointDefinition endpointDefinition = new EndpointDefinition(endpointName, method, path, queryParamsList, returnType);
+            
+            // Try to find the parent API definition and add this endpoint to it
+            // For now, we'll rely on the execution phase to link endpoints to APIs
+            // A more sophisticated implementation could track the current API context
+        }
     }
 }

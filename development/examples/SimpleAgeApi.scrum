@@ -1,0 +1,63 @@
+#SPRINTGOAL Simple Age Calculator API with user interaction
+
+#REVIEW Define Age Calculator API
+I WANT TO DEFINE API "AgeApi"
+    BASE IS "/api/age"
+
+    I WANT TO DEFINE ENDPOINT "CalculateByBirthYear"
+        METHOD IS "GET"
+        PATH IS "/{birthYear}"
+        RETURNS IS "number"
+    END OF ENDPOINT
+
+END OF API
+
+#REVIEW Function that simulates the API endpoint logic
+USER STORY "GetAgeFromBirthYear" USING [birthYear]
+    
+    currentYear IS 2024
+    age IS currentYear - birthYear
+    
+    RETURN ANSWER age
+    
+END OF STORY
+
+#REVIEW Function to format the age display
+USER STORY "FormatAgeDisplay" USING [age]
+    
+    line1 IS "┌─────────────────────────┐"
+    line2 IS "│                         │"
+    line3 IS "│      Your Age: " AND age AND "       │"
+    line4 IS "│                         │"
+    line5 IS "└─────────────────────────┘"
+    
+    SAY line1
+    SAY line2
+    SAY line3
+    SAY line4
+    SAY line5
+    
+END OF STORY
+
+#REVIEW Main program - Interactive API demo
+SAY "┌─────────────────────────────────────┐"
+SAY "│   Age Calculator API v1.0           │"
+SAY "│   Endpoint: GET /api/age/{year}     │"
+SAY "└─────────────────────────────────────┘"
+SAY ""
+
+SAY "Please enter your birth year:"
+ASK birthYear
+
+SAY ""
+SAY "Calling API endpoint..."
+SAY "   GET /api/age/" AND birthYear
+SAY ""
+
+#REVIEW Call the endpoint function
+resultAge IS GetAgeFromBirthYear USING [birthYear]
+
+SAY "API Response received!"
+SAY ""
+
+FormatAgeDisplay USING [resultAge]
