@@ -37,7 +37,7 @@ Example code files can be found within [SCRUM Examples](development/examples).
 
 ### Running SCRUM code via unit test.
 The [SCRUM Examples](development/examples) can be executed and debugged using the [ScrumLanguageTest](test/java/com/mityjohn/scrumlanguage).
-The project is build upon JAVA 17 (LTS).
+The project is build upon JAVA 21 (LTS).
 
 ### Running locally via command line
 To run SCRUM programs locally, the scrum distributable can be used (make sure to have a recent java version installed). 
@@ -174,3 +174,5 @@ Example of iteration statement:
 The base code started from a sample project of @alexandermakeev [toy-language](https://github.com/alexandermakeev/toy-language).
 A very fine starting base to get a good comprehension of developing a new programming language.
 The original version of the SCRUM programming language was developed and designed by @janvanwassenhove (aka [mITy.John](www.mityjohn.com) - follow **mITy.John** on Instagram).
+
+Check out the blog post on [mITy.John](www.mityjohn.com) for more information on the development of the SCRUM programming language or other projects.

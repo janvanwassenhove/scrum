@@ -5,6 +5,7 @@ Example code files can be found within [SCRUM Examples](development/examples).
 
 ### Running locally via command line
 To run SCRUM programs locally, the scrum distributable can be used (make sure to have a recent java version installed).
+The project is build upon JAVA 21 (LTS).
 This can either be generated running a maven build (distribution will be generated within the /development directory), or directly downloading the scrum.zip distributable.
 
 To run a program from the repository code, navigate to [Development](development) and run following code via CLI:
