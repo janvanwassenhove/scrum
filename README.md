@@ -13,6 +13,7 @@ and losely inspired by the Scrum (software development) framework (hence the nam
 
 **Scrummy** is the official mascot of the SCRUM programming language! This friendly companion represents the approachable and collaborative spirit of SCRUM. With those big eyes and a cheerful smile, Scrummy is here to guide you through your journey of becoming a true SCRUM MASTER PROGRAMMER!
 
+
 ## Why?
 So you can become an actual Master of SCRUM programming instead of being just a 'Scrum Master' (without even coding)!
 Or in other words a SCRUM MASTER PROGRAMMER!
@@ -64,6 +65,50 @@ Keep in mind running this in Powershell you'll need to run it with:
 ##### Local installation
 If you want to run the code from anywhere, you can create a SCRUM_HOME variable and add it to the system varaiables.
 Set the SCRUM_HOME environment variable pointing to your SCRUM installation and add this variable into your PATH variable adding %SCRUM_HOME%.
+
+## IDE Support
+
+SCRUM language extensions are available for popular IDEs to provide syntax highlighting, code folding, and language support.
+
+### VS Code Extension
+
+Get syntax highlighting and language support in Visual Studio Code:
+
+**Quick Install (Windows):**
+```powershell
+cd ide-extensions
+.\install-vscode.ps1
+```
+
+Or double-click `ide-extensions\install-vscode.bat` and restart VS Code.
+
+**Features:**
+- Syntax highlighting for keywords, directives, and operators
+- Code folding for Sprint/Story/API blocks
+- Auto-closing brackets and quotes
+- Comment toggling (Ctrl+/)
+- Bracket matching
+
+### IntelliJ IDEA Plugin
+
+Get SCRUM language support in IntelliJ IDEA:
+
+**Build and Install:**
+```powershell
+cd ide-extensions
+.\install-intellij.ps1
+```
+
+Then install the generated plugin via **Settings → Plugins → Install Plugin from Disk**.
+
+**Features:**
+- File type recognition for `.scrum` files
+- Syntax highlighting
+- Code structure view
+- Custom file icon
+- Comment support
+
+For detailed installation instructions, manual setup, and development guides, see [IDE Extensions Documentation](ide-extensions/README.md).
 
 ## Language Reference
 
@@ -155,3 +200,10 @@ A very fine starting base to get a good comprehension of developing a new progra
 The original version of the SCRUM programming language was developed and designed by @janvanwassenhove (aka [mITy.John](www.mityjohn.com) - follow **mITy.John** on Instagram).
 
 Check out the blog post on [mITy.John](www.mityjohn.com) for more information on the development of the SCRUM programming language or other projects.
+
+
+<p align="center">
+  <img src="asset/scrummy_duke.png" alt="Scrummy and Duke - Java Friendship" width="400"/>
+</p>
+
+Since SCRUM is built on top of Java, Scrummy and Duke (Java's mascot) are best friends! This friendship symbolizes how SCRUM leverages the power and stability of the Java platform while bringing its own unique, business-friendly syntax to the world of programming.
