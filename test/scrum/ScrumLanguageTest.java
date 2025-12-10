@@ -10,6 +10,20 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test suite for the Scrum programming language implementation.
+ * 
+ * This class contains comprehensive integration tests that verify the execution
+ * of various Scrum language example programs including:
+ * - Basic console output and input handling
+ * - Control flow and conditional logic
+ * - Data structure operations and algorithms
+ * - API definition and endpoint simulation
+ * - Interactive user input scenarios
+ * 
+ * Each test executes a complete Scrum program file and validates the expected
+ * output against actual execution results.
+ */
 class ScrumLanguageTest {
 
     public static final String BASE_PATH = "development/examples/";
