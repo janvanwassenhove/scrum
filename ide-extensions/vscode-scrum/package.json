@@ -1,0 +1,39 @@
+{
+  "name": "scrum-language",
+  "displayName": "SCRUM Language Support",
+  "description": "Syntax highlighting and language support for SCRUM programming language",
+  "version": "0.1.0",
+  "publisher": "scrum-lang",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "scrum",
+        "aliases": [
+          "SCRUM",
+          "scrum"
+        ],
+        "extensions": [
+          ".scrum"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/scrum-icon.png",
+          "dark": "./icons/scrum-icon.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "scrum",
+        "scopeName": "source.scrum",
+        "path": "./syntaxes/scrum.tmLanguage.json"
+      }
+    ]
+  }
+}
