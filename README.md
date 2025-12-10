@@ -5,6 +5,14 @@ The home of the SCRUM programming language.
 Designed for being a language which is understandable for business as well as for developers 
 and losely inspired by the Scrum (software development) framework (hence the name of course).
 
+## Meet Scrummy! 🎉
+
+<p align="center">
+  <img src="asset/scrummy_transparant.png" alt="Scrummy - The SCRUM Mascot" width="300"/>
+</p>
+
+**Scrummy** is the official mascot of the SCRUM programming language! This friendly companion represents the approachable and collaborative spirit of SCRUM. With those big eyes and a cheerful smile, Scrummy is here to guide you through your journey of becoming a true SCRUM MASTER PROGRAMMER!
+
 ## Why?
 So you can become an actual Master of SCRUM programming instead of being just a 'Scrum Master' (without even coding)!
 Or in other words a SCRUM MASTER PROGRAMMER!
