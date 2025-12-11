@@ -1,0 +1,78 @@
+<idea-plugin>
+    <id>com.scrumlang.intellij</id>
+    <name>SCRUM Language Support</name>
+    <version>0.1.0</version>
+    <vendor email="support@scrumlang.org" url="https://github.com/janvanwassenhove/scrum">SCRUM Language</vendor>
+
+    <description><![CDATA[
+        <h1>SCRUM Language Support</h1>
+        <p>Provides syntax highlighting and language support for SCRUM programming language files (.scrum).</p>
+        
+        <h2>Features:</h2>
+        <ul>
+            <li>Syntax highlighting for SCRUM keywords, strings, numbers, and comments</li>
+            <li>File type recognition for .scrum files</li>
+            <li>Custom file icon</li>
+            <li>Code structure view</li>
+            <li>Bracket matching and auto-completion</li>
+        </ul>
+        
+        <h2>SCRUM Language Keywords:</h2>
+        <ul>
+            <li>Sprint, EndSprint, Story, Task, Deliver</li>
+            <li>API definitions: I WANT TO DEFINE API, I WANT TO DEFINE ENDPOINT</li>
+            <li>Control structures: IF, THEN, ELSE, ENDIF, WHILE, ENDWHILE</li>
+            <li>Directives: #SPRINTGOAL, #REVIEW, #IMPEDIMENT, #RETROSPECTIVE</li>
+        </ul>
+    ]]></description>
+
+    <change-notes><![CDATA[
+        <h3>Version 0.1.0</h3>
+        <ul>
+            <li>Initial release</li>
+            <li>Basic syntax highlighting</li>
+            <li>File type support for .scrum files</li>
+        </ul>
+    ]]></change-notes>
+
+    <!-- Plugin compatibility -->
+    <idea-version since-build="203.0"/>
+
+    <!-- Plugin dependencies -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- File Type -->
+        <fileType 
+            name="SCRUM" 
+            implementationClass="scrum.intellij.ScrumFileType" 
+            fieldName="INSTANCE" 
+            language="SCRUM" 
+            extensions="scrum"/>
+        
+        <!-- Language -->
+        <lang.parserDefinition 
+            language="SCRUM" 
+            implementationClass="scrum.intellij.ScrumParserDefinition"/>
+        
+        <!-- Syntax Highlighter -->
+        <lang.syntaxHighlighterFactory 
+            language="SCRUM" 
+            implementationClass="scrum.intellij.ScrumSyntaxHighlighterFactory"/>
+        
+        <!-- Commenter -->
+        <lang.commenter 
+            language="SCRUM" 
+            implementationClass="scrum.intellij.ScrumCommenter"/>
+        
+        <!-- Brace Matcher -->
+        <lang.braceMatcher 
+            language="SCRUM" 
+            implementationClass="scrum.intellij.ScrumBraceMatcher"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your plugin actions here -->
+    </actions>
+</idea-plugin>

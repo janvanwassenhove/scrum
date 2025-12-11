@@ -1,0 +1,16 @@
+EPIC "Calculator" USING [ operand1, operand2 ]
+END OF EPIC
+
+USER STORY "SafeDivide"
+    numerator IS 100
+    denominator IS 0
+    
+    #REVIEW This will trigger a division by zero error
+    result IS numerator / denominator
+    
+    RETURN ANSWER result
+END OF STORY
+
+#REVIEW Call the story and trigger the impediment
+answer IS CALL "SafeDivide" USING []
+SAY answer

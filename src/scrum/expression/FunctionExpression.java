@@ -68,6 +68,9 @@ public class FunctionExpression implements Expression {
 
         //set new memory scope
         MemoryContext.pushScope(MemoryContext.newScope());
+        
+        // Track USER STORY context
+        scrum.context.ExecutionContext.setStoryName(definition.getName());
 
         try {
             //initialize function arguments
@@ -84,6 +87,7 @@ public class FunctionExpression implements Expression {
             // release function memory and return context
             MemoryContext.endScope();
             ReturnContext.reset();
+            scrum.context.ExecutionContext.setStoryName(null);
         }
     }
 }

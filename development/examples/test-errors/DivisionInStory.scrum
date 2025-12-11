@@ -1,0 +1,12 @@
+EPIC "BillingAPI" USING [ customerId ]
+END OF EPIC
+
+USER STORY "CalculateInvoice"
+    amount IS 1000
+    count IS 0
+    totalAmount IS amount / count
+    RETURN ANSWER totalAmount
+END OF STORY
+
+invoice IS CALL "CalculateInvoice" USING []
+SAY invoice

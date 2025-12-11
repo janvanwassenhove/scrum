@@ -1,0 +1,59 @@
+#SPRINTGOAL Demonstrate HTTP API definition capabilities in SCRUM
+
+#REVIEW Define an Invoice API with multiple endpoints
+I WANT TO DEFINE API "InvoiceApi"
+    BASE IS "/api/invoices"
+
+    I WANT TO DEFINE ENDPOINT "GetCustomerInvoices"
+        METHOD IS "GET"
+        PATH IS "/customer/{customerId}"
+        QUERY_PARAMS ARE { "status", "year" }
+        RETURNS IS "Invoice[]"
+    END OF ENDPOINT
+
+    I WANT TO DEFINE ENDPOINT "GetInvoiceById"
+        METHOD IS "GET"
+        PATH IS "/{invoiceId}"
+        RETURNS IS "Invoice"
+    END OF ENDPOINT
+
+    I WANT TO DEFINE ENDPOINT "CreateInvoice"
+        METHOD IS "POST"
+        PATH IS "/create"
+        RETURNS IS "Invoice"
+    END OF ENDPOINT
+
+END OF API
+
+#REVIEW Define a User API with authentication endpoints
+I WANT TO DEFINE API "UserApi"
+    BASE IS "/api/users"
+
+    I WANT TO DEFINE ENDPOINT "ListUsers"
+        METHOD IS "GET"
+        PATH IS "/list"
+        QUERY_PARAMS ARE { "page", "limit" }
+        RETURNS IS "User[]"
+    END OF ENDPOINT
+
+    I WANT TO DEFINE ENDPOINT "GetUserById"
+        METHOD IS "GET"
+        PATH IS "/{userId}"
+        RETURNS IS "User"
+    END OF ENDPOINT
+
+    I WANT TO DEFINE ENDPOINT "UpdateUser"
+        METHOD IS "PUT"
+        PATH IS "/{userId}"
+        RETURNS IS "User"
+    END OF ENDPOINT
+
+    I WANT TO DEFINE ENDPOINT "DeleteUser"
+        METHOD IS "DELETE"
+        PATH IS "/{userId}"
+        RETURNS IS "boolean"
+    END OF ENDPOINT
+
+END OF API
+
+SAY "API definitions loaded successfully!"

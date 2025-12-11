@@ -6,9 +6,9 @@ USER STORY "OddNumber"
     ASK numberForInput
 
     IF numberForInput % 2 = 0
-        SAY numberForInput + " is an even number!"
+        SAY numberForInput AND " is an even number!"
     ELSE
-        SAY numberForInput + " is an odd number!"
+        SAY numberForInput AND " is an odd number!"
     END IF
 
 END OF STORY
