@@ -1,7 +1,5 @@
 package scrum.statement;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import scrum.context.MemoryContext;
 import scrum.expression.value.LogicalValue;
 import scrum.expression.value.NumericValue;

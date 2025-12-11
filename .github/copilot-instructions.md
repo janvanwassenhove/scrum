@@ -1,9 +1,14 @@
 # GitHub Copilot Instructions
 
+## Documentation
+When adding new features to the SCUM programming languages, ensure that the relevant documentation is updated accordingly:
+- **Language Reference**: Update `docs/LANGUAGE-REFERENCE.md` with new syntax, semantics, and examples
+- **API Definitions**: If new API-related features are added, update `docs/API-DEFINITIONS.md` with detailed explanations and usage examples
+- **IDE Extensions**: If the feature affects IDE support, update `ide-extensions/README.md` with installation instructions and feature descriptions
+- **Examples**: Add relevant code examples to the `examples/` directory demonstrating the new feature
+
 ## Testing Requirements
-
 When making changes to the Scrum language implementation, always add corresponding tests:
-
 - **Language Features**: Any modifications to lexical parsing, statement parsing, expressions, operators, or language constructs must include test cases in the `test/scrum/` directory
 - **New Functionality**: New language features require comprehensive test coverage demonstrating the feature works as intended
 - **Bug Fixes**: Bug fixes should include regression tests that verify the fix and prevent future regressions

@@ -120,7 +120,9 @@ public class StatementParser {
                 throw new SyntaxException(String.format("Failed to parse a keyword: %s", token.getValue()));
         }
     }
+    @SuppressWarnings("unused")
     private void parseExecutionStatement(){
+        @SuppressWarnings("unused")
         Token type = tokens.next(TokenType.Text);
     }
     private void parsePrintStatement() {
@@ -195,6 +197,7 @@ public class StatementParser {
     private void parseFunctionDefinition() {
         DefinitionContext.getScope().getParent();
         Token type = tokens.next(TokenType.Text);
+        @SuppressWarnings("unused")
         String userStoryName = type.getValue().replace(" ", "_");
         List<String> arguments = new ArrayList<>();
 
@@ -400,6 +403,7 @@ public class StatementParser {
             compositeStatement.addStatement(executableEndpoint);
             
             // Create endpoint definition
+            @SuppressWarnings("unused")
             EndpointDefinition endpointDefinition = new EndpointDefinition(
                 endpointName, method, path, queryParamsList, returnType
             );
@@ -418,6 +422,7 @@ public class StatementParser {
                     queryParamsList.add(param);
                 }
             }
+            @SuppressWarnings("unused")
             EndpointDefinition endpointDefinition = new EndpointDefinition(endpointName, method, path, queryParamsList, returnType);
             
             // Try to find the parent API definition and add this endpoint to it

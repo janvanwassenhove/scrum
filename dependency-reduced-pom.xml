@@ -10,19 +10,26 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.13.0</version>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.1.2</version>
+        <version>3.5.2</version>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.4</version>
+        <version>3.4.2</version>
         <configuration>
           <archive>
             <manifest>
@@ -34,7 +41,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.6.0</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -82,13 +89,13 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.36</version>
+      <version>1.18.40</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.9.1</version>
+      <version>5.11.3</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -104,7 +111,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.9.1</version>
+      <version>5.11.3</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -123,12 +130,12 @@
     </dependency>
   </dependencies>
   <properties>
-    <lombok.version>1.18.36</lombok.version>
-    <maven.compiler.target>21</maven.compiler.target>
-    <java.version>21</java.version>
-    <maven.compiler.source>21</maven.compiler.source>
-    <commons-cli.version>1.5.0</commons-cli.version>
-    <commons-lang3.version>3.12.0</commons-lang3.version>
-    <junit.version>5.9.1</junit.version>
+    <lombok.version>1.18.40</lombok.version>
+    <maven.compiler.target>25</maven.compiler.target>
+    <java.version>25</java.version>
+    <maven.compiler.source>25</maven.compiler.source>
+    <commons-cli.version>1.9.0</commons-cli.version>
+    <commons-lang3.version>3.17.0</commons-lang3.version>
+    <junit.version>5.11.3</junit.version>
   </properties>
 </project>

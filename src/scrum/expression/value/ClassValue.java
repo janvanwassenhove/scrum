@@ -8,8 +8,6 @@ import scrum.context.definition.ClassDefinition;
 import java.util.Iterator;
 import java.util.stream.Collectors;
 
-import static scrum.expression.value.NullValue.NULL_INSTANCE;
-
 @Getter
 public class ClassValue extends IterableValue<ClassDefinition> {
     private final MemoryScope memoryScope;
