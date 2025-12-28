@@ -95,7 +95,7 @@ REM Backup pom.xml
 copy pom.xml pom.xml.bak >nul
 
 REM Update version in pom.xml (target only the project version)
-powershell -Command "(Get-Content pom.xml -Raw) -replace '(<artifactId>scrum-language</artifactId>\s*\r?\n\s*<version>)[^<]+', \"`$${1}%NEW_VERSION%\" | Set-Content pom.xml -NoNewline"
+powershell -Command "(Get-Content pom.xml) -replace '<version>1\.[0-9]+\.[0-9]+.*</version>', '<version>%NEW_VERSION%</version>' | Set-Content pom.xml"
 
 if errorlevel 1 (
     echo Error: Failed to update pom.xml

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mityjohn</groupId>
   <artifactId>scrum-language</artifactId>
-  <version>1.3.0</version>
+  <version>1.4.0-test</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
