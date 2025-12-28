@@ -149,12 +149,12 @@
     </dependency>
   </dependencies>
   <properties>
-    <java.version>21</java.version>
-    <maven.compiler.source>21</maven.compiler.source>
-    <commons-cli.version>1.9.0</commons-cli.version>
     <lombok.version>1.18.40</lombok.version>
-    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.target>25</maven.compiler.target>
+    <java.version>25</java.version>
     <gson.version>2.11.0</gson.version>
+    <maven.compiler.source>25</maven.compiler.source>
+    <commons-cli.version>1.9.0</commons-cli.version>
     <commons-lang3.version>3.17.0</commons-lang3.version>
     <junit.version>5.11.3</junit.version>
   </properties>

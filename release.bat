@@ -123,6 +123,16 @@ echo.
 echo   [OK] Build successful
 echo.
 
+REM Update development JAR with new version
+echo Updating development JAR...
+copy "target\scrum-language-%NEW_VERSION%.jar" "development\scrum.jar" >nul
+if errorlevel 1 (
+    echo Warning: Failed to update development JAR
+) else (
+    echo   [OK] Updated development\scrum.jar with version %NEW_VERSION%
+)
+echo.
+
 REM Verify SDK zip exists
 if not exist "target\scrum-language-%NEW_VERSION%-sdk.zip" (
     echo Error: SDK zip not found

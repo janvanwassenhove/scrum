@@ -11,8 +11,8 @@ import java.util.List;
 public class Scrum {
 
     // Version information
-    private static final String VERSION = "1.3.0";
-    private static final String BUILD_DATE = "2025-12-27";
+    private static final String VERSION = "2.0.0";
+    private static final String BUILD_DATE = "2025-12-28";
 
     public static void main(String[] args) {
         // Handle command line options

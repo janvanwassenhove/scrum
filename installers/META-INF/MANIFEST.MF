@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Created-By: Maven JAR Plugin 3.3.0
+Build-Jdk-Spec: 25
+Class-Path: commons-lang3-3.17.0.jar gson-2.11.0.jar error_prone_annotat
+ ions-2.27.0.jar
+Main-Class: scrum.Scrum
+
