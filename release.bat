@@ -4,12 +4,7 @@ REM Automates the release process for new SDK versions
 
 setlocal enabledelayedexpansion
 
-REM Color codes for output
-set "COLOR_RESET=[0m"
-set "COLOR_GREEN=[32m"
-set "COLOR_RED=[31m"
-set "COLOR_YELLOW=[33m"
-set "COLOR_BLUE=[34m"
+REM Color codes removed for Windows compatibility
 
 echo.
 echo ========================================
@@ -25,7 +20,7 @@ if not "%~1"=="" (
 )
 
 if "%NEW_VERSION%"=="" (
-    echo %COLOR_RED%Error: Version number cannot be empty%COLOR_RESET%
+    echo Error: Version number cannot be empty
     exit /b 1
 )
 
@@ -35,18 +30,18 @@ echo.
 REM Validate version format using PowerShell for better regex support
 powershell -Command "if ('%NEW_VERSION%' -notmatch '^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*)?$') { exit 1 }"
 if errorlevel 1 (
-    echo %COLOR_RED%Error: Invalid version format%COLOR_RESET%
+    echo Error: Invalid version format
     echo Version must be in format: MAJOR.MINOR.PATCH[-PRERELEASE]
     echo Examples: 1.4.0, 1.4.0-alpha, 1.4.0-beta.1, 1.4.0-rc.2
     exit /b 1
 )
 
-echo %COLOR_BLUE%Step 1: Checking Prerequisites...%COLOR_RESET%
+echo Step 1: Checking Prerequisites...
 
 REM Check Git
 cmd /c "git --version >nul 2>&1"
 if errorlevel 1 (
-    echo %COLOR_RED%Error: Git not found%COLOR_RESET%
+    echo Error: Git not found
     echo Please install Git and try again
     exit /b 1
 )
@@ -55,7 +50,7 @@ echo   [OK] Git installed
 REM Check Maven
 cmd /c "mvn --version >nul 2>&1"
 if errorlevel 1 (
-    echo %COLOR_RED%Error: Maven not found%COLOR_RESET%
+    echo Error: Maven not found
     echo Please install Maven and try again
     exit /b 1
 )
@@ -64,7 +59,7 @@ echo   [OK] Maven installed
 REM Check Java
 cmd /c "java -version >nul 2>&1"
 if errorlevel 1 (
-    echo %COLOR_RED%Error: Java not found%COLOR_RESET%
+    echo Error: Java not found
     echo Please install Java 21+ and try again
     exit /b 1
 )
@@ -74,7 +69,7 @@ echo.
 REM Check for uncommitted changes
 git diff --quiet
 if errorlevel 1 (
-    echo %COLOR_YELLOW%Warning: You have uncommitted changes%COLOR_RESET%
+    echo Warning: You have uncommitted changes
     set /p CONTINUE="Continue anyway? (y/N): "
     if /i not "!CONTINUE!"=="y" (
         echo Release cancelled
@@ -85,7 +80,7 @@ if errorlevel 1 (
 REM Check if on master branch
 for /f "tokens=*" %%i in ('git rev-parse --abbrev-ref HEAD') do set CURRENT_BRANCH=%%i
 if not "%CURRENT_BRANCH%"=="master" (
-    echo %COLOR_YELLOW%Warning: Not on master branch (current: %CURRENT_BRANCH%)%COLOR_RESET%
+    echo Warning: Not on master branch (current: %CURRENT_BRANCH%)
     set /p CONTINUE="Continue anyway? (y/N): "
     if /i not "!CONTINUE!"=="y" (
         echo Release cancelled
@@ -94,7 +89,7 @@ if not "%CURRENT_BRANCH%"=="master" (
 )
 echo.
 
-echo %COLOR_BLUE%Step 2: Updating Version in pom.xml...%COLOR_RESET%
+echo Step 2: Updating Version in pom.xml...
 
 REM Backup pom.xml
 copy pom.xml pom.xml.bak >nul
@@ -103,7 +98,7 @@ REM Update version in pom.xml (target only the project version)
 powershell -Command "(Get-Content pom.xml -Raw) -replace '(<artifactId>scrum-language</artifactId>\s*\r?\n\s*<version>)[^<]+', \"`$${1}%NEW_VERSION%\" | Set-Content pom.xml -NoNewline"
 
 if errorlevel 1 (
-    echo %COLOR_RED%Error: Failed to update pom.xml%COLOR_RESET%
+    echo Error: Failed to update pom.xml
     copy pom.xml.bak pom.xml >nul
     del pom.xml.bak
     exit /b 1
@@ -113,31 +108,31 @@ echo   [OK] Version updated to %NEW_VERSION%
 del pom.xml.bak
 echo.
 
-echo %COLOR_BLUE%Step 3: Building SDK...%COLOR_RESET%
+echo Step 3: Building SDK...
 echo.
 
 call mvn clean package
 if errorlevel 1 (
     echo.
-    echo %COLOR_RED%Error: Build failed%COLOR_RESET%
+    echo Error: Build failed
     echo Please fix build errors and try again
     exit /b 1
 )
 
 echo.
-echo %COLOR_GREEN%  [OK] Build successful%COLOR_RESET%
+echo   [OK] Build successful
 echo.
 
 REM Verify SDK zip exists
 if not exist "target\scrum-language-%NEW_VERSION%-sdk.zip" (
-    echo %COLOR_RED%Error: SDK zip not found%COLOR_RESET%
+    echo Error: SDK zip not found
     echo Expected: target\scrum-language-%NEW_VERSION%-sdk.zip
     exit /b 1
 )
 echo   [OK] SDK zip created: target\scrum-language-%NEW_VERSION%-sdk.zip
 echo.
 
-echo %COLOR_BLUE%Step 4: Testing Installation (Optional)...%COLOR_RESET%
+echo Step 4: Testing Installation (Optional)...
 set /p TEST_INSTALL="Test installation locally? (y/N): "
 
 if /i "%TEST_INSTALL%"=="y" (
@@ -155,7 +150,7 @@ if /i "%TEST_INSTALL%"=="y" (
     cd ..\..
     
     if errorlevel 1 (
-        echo %COLOR_RED%Error: Installation test failed%COLOR_RESET%
+        echo Error: Installation test failed
         exit /b 1
     )
     
@@ -163,25 +158,25 @@ if /i "%TEST_INSTALL%"=="y" (
     echo.
 )
 
-echo %COLOR_BLUE%Step 5: Committing Changes...%COLOR_RESET%
+echo Step 5: Committing Changes...
 
 git add pom.xml
 git commit -m "Bump version to %NEW_VERSION%"
 
 if errorlevel 1 (
-    echo %COLOR_RED%Error: Git commit failed%COLOR_RESET%
+    echo Error: Git commit failed
     exit /b 1
 )
 
 echo   [OK] Changes committed
 echo.
 
-echo %COLOR_BLUE%Step 6: Creating Git Tag...%COLOR_RESET%
+echo Step 6: Creating Git Tag...
 
 REM Check if tag already exists
 git tag | findstr "v%NEW_VERSION%" >nul
 if not errorlevel 1 (
-    echo %COLOR_YELLOW%Warning: Tag v%NEW_VERSION% already exists%COLOR_RESET%
+    echo Warning: Tag v%NEW_VERSION% already exists
     set /p DELETE_TAG="Delete existing tag? (y/N): "
     if /i "!DELETE_TAG!"=="y" (
         git tag -d v%NEW_VERSION%
@@ -195,14 +190,14 @@ if not errorlevel 1 (
 git tag -a v%NEW_VERSION% -m "Release version %NEW_VERSION%"
 
 if errorlevel 1 (
-    echo %COLOR_RED%Error: Failed to create tag%COLOR_RESET%
+    echo Error: Failed to create tag
     exit /b 1
 )
 
 echo   [OK] Tag v%NEW_VERSION% created
 echo.
 
-echo %COLOR_BLUE%Step 7: Pushing to GitHub...%COLOR_RESET%
+echo Step 7: Pushing to GitHub...
 echo.
 
 echo This will push the commit and tag to GitHub, triggering the release workflow.
@@ -221,21 +216,21 @@ if /i not "%PUSH_CONFIRM%"=="y" (
 REM Push commit
 git push origin master
 if errorlevel 1 (
-    echo %COLOR_RED%Error: Failed to push commit%COLOR_RESET%
+    echo Error: Failed to push commit
     exit /b 1
 )
 
 REM Push tag
 git push origin v%NEW_VERSION%
 if errorlevel 1 (
-    echo %COLOR_RED%Error: Failed to push tag%COLOR_RESET%
+    echo Error: Failed to push tag
     exit /b 1
 )
 
 echo.
-echo %COLOR_GREEN%========================================%COLOR_RESET%
-echo %COLOR_GREEN%Release Process Complete!%COLOR_RESET%
-echo %COLOR_GREEN%========================================%COLOR_RESET%
+echo ========================================
+echo Release Process Complete!
+echo ========================================
 echo.
 echo Version: %NEW_VERSION%
 echo Tag: v%NEW_VERSION%
