@@ -66,7 +66,7 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.VERSION }}"
           cat > release_notes.md << EOF
-          # SCRUM Programming Language SDK v${VERSION}
+          # SCRUM v${VERSION}
           
           ## 📦 Installation
           
