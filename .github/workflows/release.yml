@@ -138,7 +138,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ steps.version.outputs.VERSION }}
-          name: SCRUM SDK v${{ steps.version.outputs.VERSION }}
+          name: SCRUM v${{ steps.version.outputs.VERSION }}
           body_path: release_notes.md
           draft: false
           prerelease: false
