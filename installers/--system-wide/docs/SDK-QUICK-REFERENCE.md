@@ -28,44 +28,16 @@ sudo ./installers/install.sh
 ## Basic Commands
 
 ```bash
-# Check version and environment info
+# Check version
 scrum --version
-scrum -v
-
-# Get help and usage information
-scrum --help
-scrum -h
-
-# View examples and sample code
-scrum --examples
 
 # Run a program
 scrum myprogram.scrum
 scrum path/to/program.scrum
 
-# Debug mode (detailed error traces)
-scrum --debug myprogram.scrum
-scrum -d myprogram.scrum
-
-# Validate syntax only (no execution)
-scrum --validate myprogram.scrum
-scrum -c myprogram.scrum
-scrum --syntax-check myprogram.scrum
-
 # Examples
 scrum examples/HelloWorld.scrum
 scrum examples/OddOrNot.scrum
-```
-
-## Command Line Options
-
-```bash
--v, --version       Display version information
--h, --help          Display detailed help message
--d, --debug         Enable debug mode with detailed error traces
--c, --validate      Validate syntax only (no execution)
-    --syntax-check  Alias for --validate
-    --examples      Show available examples and sample code
 ```
 
 ## Environment Variables
@@ -93,20 +65,11 @@ mvn clean package
 # Output: target/scrum-language-<version>-sdk.{zip,tar.gz}
 ```
 
-## Upgrade & Version Management
-
-### Upgrading to New Version
+## Upgrade
 
 ```bash
-# Method 1: Quick Upgrade (Windows)
-# Download new SDK and run installer directly
-# It will automatically backup/replace existing installation
-
-# Method 2: Clean Install (Recommended)
 # 1. Uninstall old version
 # Windows:
-%SCRUM_HOME%\uninstall.ps1
-# OR
 %SCRUM_HOME%\uninstall.bat
 
 # Linux/macOS:
@@ -114,48 +77,6 @@ $SCRUM_HOME/uninstall.sh
 
 # 2. Download new version from GitHub Releases
 # 3. Install using steps above
-
-# Method 3: Side-by-side Installation
-# Install to different directory for testing
-.\installers\install.ps1 -InstallDir "C:\scrum-beta"
-./installers/install.sh --install-dir ~/scrum-beta
-```
-
-### Version Switching
-
-```bash
-# Switch between versions by changing SCRUM_HOME
-# Windows PowerShell:
-$env:SCRUM_HOME = "C:\scrum-1.3.0"
-$env:SCRUM_HOME = "C:\scrum-1.4.0-beta"
-
-# Windows CMD:
-set SCRUM_HOME=C:\scrum-1.3.0
-set SCRUM_HOME=C:\scrum-1.4.0-beta
-
-# Linux/macOS:
-export SCRUM_HOME="/opt/scrum-1.3.0"
-export SCRUM_HOME="/opt/scrum-1.4.0-beta"
-
-# Make permanent by updating:
-# - Windows: Environment Variables in System Properties
-# - Linux/macOS: ~/.bashrc or ~/.zshrc
-```
-
-### Version History Check
-
-```bash
-# Check current version
-scrum --version
-
-# View installation directory
-echo $SCRUM_HOME           # Linux/macOS
-echo %SCRUM_HOME%          # Windows CMD
-echo $env:SCRUM_HOME       # Windows PowerShell
-
-# List all installed versions
-ls /opt/scrum*             # Linux/macOS
-dir C:\scrum*              # Windows
 ```
 
 ## Uninstall

@@ -141,49 +141,6 @@ END
 3. **Verify** installation: `scrum --version`
 4. **Run** programs: `scrum examples/HelloWorld.scrum`
 
-### Command Line Interface
-
-SCRUM provides a comprehensive CLI with powerful features:
-
-```bash
-# Get help and see all available options
-scrum --help
-
-# View built-in examples and sample code  
-scrum --examples
-
-# Validate syntax without execution (perfect for CI/CD)
-scrum --validate myprogram.scrum
-
-# Run with detailed debugging information
-scrum --debug myprogram.scrum
-
-# Check version and environment details
-scrum --version
-```
-
-**Available Commands:**
-- `-v, --version` - Display version and environment information
-- `-h, --help` - Show comprehensive help with examples  
-- `--examples` - View available examples with sample code
-- `-d, --debug` - Enable debug mode with detailed error traces
-- `-c, --validate` - Validate syntax only (no execution)
-
-### Upgrading SCRUM
-
-To upgrade to a newer version:
-
-```bash
-# Method 1: Quick upgrade (replaces existing installation)
-# Download new SDK and run installer directly
-
-# Method 2: Side-by-side installation for testing
-# Windows: installers\install.ps1 -InstallDir "C:\scrum-beta"
-# Linux: ./installers/install.sh --install-dir /opt/scrum-beta
-
-# Switch versions by updating SCRUM_HOME environment variable
-```
-
 📚 **Complete installation guide**: See [SDK-INSTALLATION.md](docs/SDK-INSTALLATION.md)
 
 ### Running SCRUM code via unit test

@@ -205,10 +205,8 @@ choco install temurin21
 
 After installation, verify the SDK is correctly installed:
 
-### Basic Verification
-
 ```bash
-# Check version and environment info
+# Check version
 scrum --version
 
 # Expected output:
@@ -218,30 +216,7 @@ scrum --version
 # 
 # Version:        1.3.0
 # Build Date:     2025-12-27
-# Java Version:   21.0.5
-# Java Vendor:    Oracle Corporation  
-# Java Home:      C:\Program Files\Java\jdk-21
-# SCRUM_HOME:     C:\scrum
-# 
-# Copyright (c) 2023-2025 Jan Van Wassenhove
-# License: See LICENSE file in distribution
-```
-
-### Test CLI Features
-
-```bash
-# Get help information
-scrum --help
-
-# View available examples
-scrum --examples
-
-# Validate syntax of an example (without running)
-scrum --validate $SCRUM_HOME/examples/HelloWorld.scrum
-
-# Expected output:
-# ✅ Syntax validation successful for: [path]/HelloWorld.scrum
-#    No syntax errors found. The file is ready for execution.
+# ...
 ```
 
 ### Run Example Program
@@ -252,9 +227,6 @@ scrum $SCRUM_HOME/examples/HelloWorld.scrum
 
 # Expected output:
 # Hello world!
-
-# Run with debug mode for detailed output
-scrum --debug $SCRUM_HOME/examples/HelloWorld.scrum
 ```
 
 Or navigate to the examples directory:
@@ -262,24 +234,6 @@ Or navigate to the examples directory:
 ```bash
 cd $SCRUM_HOME/examples
 scrum HelloWorld.scrum
-
-# Test different examples
-scrum OddOrNot.scrum
-scrum --validate ApiExample.scrum
-```
-
-### Full Feature Test
-
-```bash
-# Test AI-powered features (requires API key)
-export SCRUM_API_KEY="your-openai-api-key"
-scrum IntentComputeBirthYear.scrum
-
-# Test API integration
-scrum ApiExample.scrum
-
-# Test syntax validation for CI/CD workflows
-scrum --validate *.scrum
 ```
 
 ---
@@ -324,75 +278,13 @@ java -Dscrum.debug=true -jar $SCRUM_HOME/lib/scrum-1.3.0.jar myprogram.scrum
 
 ## Upgrading
 
-### Quick Upgrade (Recommended)
+### Automated Upgrade
 
-The easiest way to upgrade is to download the new version and run the installer, which will automatically handle the upgrade:
-
-**Windows**:
-```cmd
-# Download new SDK and extract
-cd scrum-language-<new-version>
-
-# Run installer (will backup and replace existing installation)
-installers\install.bat
-
-# Verify upgrade
-scrum --version
-```
-
-**Linux/macOS**:
-```bash
-# Download and extract new SDK
-tar -xzf scrum-language-<new-version>-sdk.tar.gz
-cd scrum-language-<new-version>
-
-# Install (will upgrade existing installation)
-sudo ./installers/install.sh
-
-# Verify upgrade
-scrum --version
-```
-
-### Side-by-Side Installation
-
-For testing new versions alongside existing ones:
-
-**Windows**:
-```powershell
-# Install to different directory
-.\installers\install.ps1 -InstallDir "C:\scrum-beta"
-
-# Switch versions by updating SCRUM_HOME
-$env:SCRUM_HOME = "C:\scrum-beta"    # Use beta version
-$env:SCRUM_HOME = "C:\scrum"         # Use stable version
-```
-
-**Linux/macOS**:
-```bash
-# Install to different directory
-./installers/install.sh --install-dir /opt/scrum-beta
-
-# Switch versions
-export SCRUM_HOME="/opt/scrum-beta"  # Use beta version
-export SCRUM_HOME="/opt/scrum"       # Use stable version
-```
-
-### Clean Upgrade (Manual)
-
-1. **Check Current Version**
-   ```bash
-   scrum --version
-   ```
-
-2. **Backup Configuration**
-   - Save any custom environment variables (API keys, etc.)
-   - Note your current `SCRUM_HOME` path
-
-3. **Uninstall Current Version**
+1. **Uninstall Current Version**
    
    **Windows**:
    ```cmd
-   %SCRUM_HOME%\uninstall.ps1
+   %SCRUM_HOME%\uninstall.bat
    ```
    
    **Linux/macOS**:
@@ -400,93 +292,27 @@ export SCRUM_HOME="/opt/scrum"       # Use stable version
    $SCRUM_HOME/uninstall.sh
    ```
 
-4. **Download New Version**
+2. **Download New Version**
    - Get latest SDK from [GitHub Releases](https://github.com/janvanwassenhove/scrum/releases)
 
-5. **Install New Version**
+3. **Install New Version**
    - Follow installation steps for your platform
 
-6. **Verify Upgrade**
-   ```bash
-   scrum --version
-   scrum --help
-   scrum --examples
-   ```
+### Manual Upgrade
 
-7. **Restore Configuration**
+1. **Backup Configuration**
+   - Save any custom environment variables (API keys, etc.)
+
+2. **Remove Old Installation**
+   - Delete `$SCRUM_HOME` directory
+   - Remove old `SCRUM_HOME` from environment variables
+   - Remove old `bin` directory from PATH
+
+3. **Install New Version**
+   - Follow fresh installation steps
+
+4. **Restore Configuration**
    - Re-set API keys and custom environment variables
-
-### Pre-Release Versions
-
-To test alpha, beta, or release candidate versions:
-
-```bash
-# Download pre-release from GitHub Releases
-# Look for versions like: 1.4.0-alpha, 1.4.0-beta, 1.4.0-rc1
-
-# Install to separate directory
-# Windows:
-installers\install.ps1 -InstallDir "C:\scrum-alpha"
-
-# Linux/macOS:
-./installers/install.sh --install-dir /opt/scrum-alpha
-
-# Use pre-release version
-export SCRUM_HOME="/opt/scrum-alpha"  # Linux/macOS
-$env:SCRUM_HOME = "C:\scrum-alpha"    # Windows
-
-# Test new features
-scrum --version
-scrum --help
-```
-
-### Version Management
-
-**List Installed Versions**:
-```bash
-# Windows:
-dir C:\scrum*
-dir "%LOCALAPPDATA%\Programs\SCRUM*"
-
-# Linux/macOS:
-ls /opt/scrum*
-ls ~/.local/scrum*
-```
-
-**Switch Between Versions**:
-```bash
-# Temporarily switch (current session only)
-# Windows PowerShell:
-$env:SCRUM_HOME = "C:\scrum-1.3.0"
-$env:SCRUM_HOME = "C:\scrum-1.4.0-beta"
-
-# Linux/macOS:
-export SCRUM_HOME="/opt/scrum-1.3.0"
-export SCRUM_HOME="/opt/scrum-1.4.0-beta"
-
-# Permanently switch by updating system environment variables
-```
-
-### New CLI Features (v1.4.0+)
-
-Recent versions include enhanced command-line interface:
-
-```bash
-# Get comprehensive help
-scrum --help
-
-# View available examples with sample code
-scrum --examples
-
-# Validate syntax without execution (perfect for CI/CD)
-scrum --validate myprogram.scrum
-
-# Debug mode with detailed error traces
-scrum --debug myprogram.scrum
-
-# Version info with environment details
-scrum --version
-```
 
 ---
 

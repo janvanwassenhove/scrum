@@ -9,7 +9,6 @@ Welcome to the comprehensive documentation for the SCRUM Programming Language. T
 | Document | Description | Target Audience |
 |----------|-------------|-----------------|
 | **[SDK Installation Guide](SDK-INSTALLATION.md)** | Complete installation guide for all platforms | All users |
-| **[CLI Reference](CLI-REFERENCE.md)** | Complete command-line interface documentation | Developers, DevOps |
 | **[Getting Started with Intents](GETTING-STARTED-INTENTS.md)** | Revolutionary AI-powered natural language programming | New users, AI enthusiasts |
 | **[Quick Reference](SDK-QUICK-REFERENCE.md)** | Command cheat sheet and common patterns | All users |
 
@@ -44,29 +43,10 @@ Welcome to the comprehensive documentation for the SCRUM Programming Language. T
 # Download from GitHub Releases and run installer
 # Windows: installers\install.bat
 # Linux/macOS: ./installers/install.sh
-
-# Verify installation
-scrum --version
 ```
 📚 [Complete Installation Guide →](SDK-INSTALLATION.md)
 
-### 2. **Explore CLI Features**
-```bash
-# Get comprehensive help
-scrum --help
-
-# View built-in examples with sample code
-scrum --examples
-
-# Validate syntax without execution (great for CI/CD)
-scrum --validate myprogram.scrum
-
-# Run with detailed debugging
-scrum --debug myprogram.scrum
-```
-📚 [Complete CLI Reference →](CLI-REFERENCE.md)
-
-### 3. **Traditional SCRUM Programming**
+### 2. **Traditional SCRUM Programming**
 ```scrum
 EPIC "HelloWorld"
     USER STORY "Greeting"
@@ -79,7 +59,7 @@ END
 ```
 📚 [Complete Language Reference →](LANGUAGE-REFERENCE.md)
 
-### 4. **AI-Powered Programming with #INTENT**
+### 3. **AI-Powered Programming with #INTENT**
 ```scrum
 EPIC "Calculator"
     USER STORY "ComputeAge"
@@ -92,7 +72,7 @@ END
 ```
 📚 [Getting Started with #INTENT →](GETTING-STARTED-INTENTS.md)
 
-### 5. **REST API Development**
+### 4. **REST API Development**
 ```scrum
 API "UserService"
     BASE PATH IS "/api/v1"
