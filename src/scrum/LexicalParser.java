@@ -41,6 +41,55 @@ public class LexicalParser {
                 .findFirst()
                 .orElse(linesIndices.size()) + 1;
 
+        // Special handling for #INTENT blocks - capture everything until #END INTENT
+        if (nextToken.startsWith("#INTENT")) {
+            // Find the #INTENT keyword
+            Pattern intentStartPattern = Pattern.compile("^#INTENT");
+            Matcher intentMatcher = intentStartPattern.matcher(nextToken);
+            if (intentMatcher.find()) {
+                // Add #INTENT keyword token
+                Token intentToken = Token.builder()
+                        .type(TokenType.Keyword)
+                        .value("#INTENT")
+                        .row(row)
+                        .build();
+                tokens.add(intentToken);
+                
+                int intentLength = intentMatcher.group().length();
+                
+                // Find #END INTENT
+                int endIntentPos = source.indexOf("#END INTENT", position + intentLength);
+                if (endIntentPos == -1) {
+                    throw new TokenException(String.format("Missing #END INTENT at line %d", row));
+                }
+                
+                // Extract the raw text between #INTENT and #END INTENT
+                String intentText = source.substring(position + intentLength, endIntentPos);
+                
+                // Add the intent text as a single Text token (preserve whitespace and newlines)
+                if (!intentText.trim().isEmpty()) {
+                    Token textToken = Token.builder()
+                            .type(TokenType.Text)
+                            .value(intentText)
+                            .row(row)
+                            .build();
+                    tokens.add(textToken);
+                }
+                
+                // Add #END INTENT keyword token
+                int endRow = row + countNewlines(intentText);
+                Token endIntentToken = Token.builder()
+                        .type(TokenType.Keyword)
+                        .value("#END INTENT")
+                        .row(endRow)
+                        .build();
+                tokens.add(endIntentToken);
+                
+                // Return total length consumed
+                return (endIntentPos - position) + "#END INTENT".length();
+            }
+        }
+
         for (TokenType tokenType : TokenType.values()) {
             Pattern pattern = Pattern.compile("^" + tokenType.getRegex());
             Matcher matcher = pattern.matcher(nextToken);
@@ -56,6 +105,10 @@ public class LexicalParser {
         }
 
         throw new TokenException(String.format("invalid expression at line %d", row));
+    }
+
+    private int countNewlines(String text) {
+        return (int) text.chars().filter(ch -> ch == '\n').count();
     }
 
 }

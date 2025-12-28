@@ -56,7 +56,7 @@ public class StatementParser {
         if (tokens.peek(TokenType.Operator, TokenType.Variable, TokenType.This))
             return true;
         if (tokens.peek(TokenType.Keyword)) {
-            return !tokens.peek(TokenType.Keyword, "ELSE", "ELSEIF","end", "END OF STORY", "END OF EPIC", "END IF", "END OF ITERATION", "END OF API", "END OF ENDPOINT", "END WHEN");
+            return !tokens.peek(TokenType.Keyword, "ELSE", "ELSEIF","end", "END OF STORY", "END OF EPIC", "END IF", "END OF ITERATION", "END OF API", "END OF ENDPOINT", "END WHEN", "#END INTENT");
         }
         return false;
     }
@@ -115,6 +115,9 @@ public class StatementParser {
                 break;
             case "next":
                 parseNextStatement();
+                break;
+            case "#INTENT":
+                parseIntentBlock();
                 break;
             default:
                 throw new SyntaxException(String.format("Failed to parse a keyword: %s", token.getValue()));
@@ -429,5 +432,30 @@ public class StatementParser {
             // For now, we'll rely on the execution phase to link endpoints to APIs
             // A more sophisticated implementation could track the current API context
         }
+    }
+    
+    /**
+     * Parse an #INTENT block.
+     * Captures all text between #INTENT and #END INTENT tokens as raw natural language.
+     * This will be processed by the IntentPreprocessor to generate actual SCRUM code.
+     */
+    private void parseIntentBlock() {
+        // The lexer has already captured the intent text as a single Text token
+        // between #INTENT and #END INTENT keywords
+        
+        String intentText = "";
+        
+        // Check if there's a Text token with the intent content
+        if (tokens.peek(TokenType.Text)) {
+            Token textToken = tokens.next(TokenType.Text);
+            intentText = textToken.getValue().trim();
+        }
+        
+        // Expect #END INTENT keyword
+        tokens.next(TokenType.Keyword, "#END INTENT");
+        
+        // Create the intent block statement
+        IntentBlockStatement intentBlock = new IntentBlockStatement(intentText);
+        compositeStatement.addStatement(intentBlock);
     }
 }

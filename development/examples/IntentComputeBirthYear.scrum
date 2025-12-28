@@ -1,0 +1,15 @@
+EPIC "BirthYearCalculator"
+
+    USER STORY "ComputeBirthYear"
+
+        #INTENT
+        I want to ask the user for their current age. The input will be used to 
+        calculate and display their birth year based on the current year 2024.
+        #END INTENT
+
+    END OF STORY
+
+END OF EPIC
+
+calculator IS NEW BirthYearCalculator
+calculator::ComputeBirthYear USING []

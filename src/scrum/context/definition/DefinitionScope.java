@@ -71,6 +71,36 @@ public class DefinitionScope {
         apis.add(apiDefinition);
     }
     
+    /**
+     * Get all functions defined in this scope and parent scopes.
+     */
+    public Set<FunctionDefinition> getAllFunctions() {
+        Set<FunctionDefinition> allFunctions = new HashSet<>(functions);
+        if (parent != null) {
+            allFunctions.addAll(parent.getAllFunctions());
+        }
+        return allFunctions;
+    }
+    
+    /**
+     * Get all functions recursively including those defined in class scopes.
+     */
+    public Set<FunctionDefinition> getAllFunctionsRecursive() {
+        Set<FunctionDefinition> allFunctions = new HashSet<>(functions);
+        
+        // Add functions from all classes (EPIC scopes)
+        for (ClassDefinition classDef : classes) {
+            allFunctions.addAll(classDef.getDefinitionScope().getAllFunctions());
+        }
+        
+        // Add from parent scope
+        if (parent != null) {
+            allFunctions.addAll(parent.getAllFunctionsRecursive());
+        }
+        
+        return allFunctions;
+    }
+    
     private ScrumRuntimeException buildNameException(String message) {
         ExecutionContext.Context ctx = ExecutionContext.get();
         return ScrumRuntimeException.builder()

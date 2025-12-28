@@ -1,0 +1,82 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 http://maven.apache.org/xsd/assembly-2.2.0.xsd">
+    <id>sdk</id>
+    <formats>
+        <format>zip</format>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <baseDirectory>scrum-${project.version}</baseDirectory>
+
+    <fileSets>
+        <!-- Launcher scripts (bin/) -->
+        <fileSet>
+            <directory>development</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>scrum.bat</include>
+                <include>scrum.ps1</include>
+                <include>scrum.sh</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+
+        <!-- Examples directory -->
+        <fileSet>
+            <directory>development/examples</directory>
+            <outputDirectory>examples</outputDirectory>
+            <includes>
+                <include>**/*.scrum</include>
+                <include>**/*.md</include>
+            </includes>
+            <fileMode>0644</fileMode>
+        </fileSet>
+
+        <!-- Documentation -->
+        <fileSet>
+            <directory>docs</directory>
+            <outputDirectory>docs</outputDirectory>
+            <includes>
+                <include>**/*.md</include>
+            </includes>
+            <fileMode>0644</fileMode>
+        </fileSet>
+
+        <!-- Root files (LICENSE, README) -->
+        <fileSet>
+            <directory>.</directory>
+            <outputDirectory>.</outputDirectory>
+            <includes>
+                <include>LICENSE</include>
+                <include>README.md</include>
+            </includes>
+            <fileMode>0644</fileMode>
+        </fileSet>
+
+        <!-- Installation scripts -->
+        <fileSet>
+            <directory>installers</directory>
+            <outputDirectory>installers</outputDirectory>
+            <includes>
+                <include>install.bat</include>
+                <include>install.ps1</include>
+                <include>install.sh</include>
+                <include>uninstall.bat</include>
+                <include>uninstall.ps1</include>
+                <include>uninstall.sh</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+    </fileSets>
+
+    <!-- JAR file (lib/) -->
+    <files>
+        <file>
+            <source>target/${project.artifactId}-${project.version}.jar</source>
+            <outputDirectory>lib</outputDirectory>
+            <destName>scrum-${project.version}.jar</destName>
+            <fileMode>0644</fileMode>
+        </file>
+    </files>
+</assembly>

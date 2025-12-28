@@ -1,0 +1,17 @@
+EPIC "BirthYearService"
+
+    USER STORY "BirthYearApi"
+
+        #INTENT
+        I want to define an API endpoint that accepts a year as a parameter
+        and returns the calculated birth year. The API should be called "BirthApi"
+        with base path "/api/birth" and the endpoint should be a GET request
+        at path "/birthyear/{year}" that returns the birth year.
+        #END INTENT
+
+    END OF STORY
+
+END OF EPIC
+
+service IS NEW BirthYearService
+service::BirthYearApi USING []

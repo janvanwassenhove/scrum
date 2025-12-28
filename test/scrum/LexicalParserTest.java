@@ -360,4 +360,52 @@ class LexicalParserTest {
         assertEquals(2, tokens.get(count).getRow());
     }
 
+    @Test
+    public void testIntentTokens() {
+        String source = "#INTENT\nAsk user for age\n#END INTENT";
+        LexicalParser parser = new LexicalParser(source);
+        List<Token> tokens = parser.parse();
+
+        // Filter out whitespace for easier testing
+        tokens = tokens.stream()
+                .filter(t -> t.getType() != TokenType.Whitespace)
+                .toList();
+
+        boolean hasIntentStart = tokens.stream()
+                .anyMatch(t -> t.getType() == TokenType.Keyword && t.getValue().equals("#INTENT"));
+        boolean hasIntentEnd = tokens.stream()
+                .anyMatch(t -> t.getType() == TokenType.Keyword && t.getValue().equals("#END INTENT"));
+
+        assertEquals(true, hasIntentStart, "Should contain #INTENT keyword");
+        assertEquals(true, hasIntentEnd, "Should contain #END INTENT keyword");
+    }
+
+    @Test
+    public void testIntentTokensInUserStory() {
+        String source = """
+            USER STORY "TestIntent"
+                #INTENT
+                Calculate birth year from age
+                #END INTENT
+            END OF STORY
+            """;
+        LexicalParser parser = new LexicalParser(source);
+        List<Token> tokens = parser.parse();
+
+        // Verify key tokens are present
+        boolean hasUserStory = tokens.stream()
+                .anyMatch(t -> t.getType() == TokenType.Keyword && t.getValue().equals("USER STORY"));
+        boolean hasIntentStart = tokens.stream()
+                .anyMatch(t -> t.getType() == TokenType.Keyword && t.getValue().equals("#INTENT"));
+        boolean hasIntentEnd = tokens.stream()
+                .anyMatch(t -> t.getType() == TokenType.Keyword && t.getValue().equals("#END INTENT"));
+        boolean hasEndOfStory = tokens.stream()
+                .anyMatch(t -> t.getType() == TokenType.Keyword && t.getValue().equals("END OF STORY"));
+
+        assertEquals(true, hasUserStory, "Should contain USER STORY keyword");
+        assertEquals(true, hasIntentStart, "Should contain #INTENT keyword");
+        assertEquals(true, hasIntentEnd, "Should contain #END INTENT keyword");
+        assertEquals(true, hasEndOfStory, "Should contain END OF STORY keyword");
+    }
+
 }

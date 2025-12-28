@@ -1,13 +1,20 @@
 package scrum;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.*;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test suite for the Scrum programming language implementation.
@@ -34,6 +41,10 @@ class ScrumLanguageTest {
     public static final String EXECUTABLE_API_EXAMPLE_SCRUM = BASE_PATH + "ExecutableApiExample.scrum";
     public static final String SIMPLE_AGE_API_SCRUM = BASE_PATH + "SimpleAgeApi.scrum";
     public static final String AGE_CALCULATOR_API_SCRUM = BASE_PATH + "AgeCalculatorApi.scrum";
+    
+    // Intent examples
+    public static final String INTENT_COMPUTE_BIRTH_YEAR_SCRUM = BASE_PATH + "IntentComputeBirthYear.scrum";
+    public static final String INTENT_BIRTH_YEAR_API_SCRUM = BASE_PATH + "IntentBirthYearApi.scrum";
 
     /**
      * Hello World example, will simply print out 'Hello world!' to the console.
@@ -231,6 +242,81 @@ class ScrumLanguageTest {
             lang.execute(path);
 
             assertEquals(output, baos.toString());
+        }
+    }
+    
+    /**
+     * Check if Ollama is available at localhost:11434
+     */
+    private boolean isOllamaAvailable() {
+        try {
+            HttpClient client = HttpClient.newBuilder()
+                    .connectTimeout(Duration.ofSeconds(2))
+                    .build();
+            
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:11434/api/tags"))
+                    .timeout(Duration.ofSeconds(2))
+                    .GET()
+                    .build();
+            
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.statusCode() == 200;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    /**
+     * Test intent-based code generation with Ollama (runs only if Ollama is available)
+     */
+    @Test
+    void intentComputeBirthYearTest() throws Exception {
+        assumeTrue(isOllamaAvailable(), "Ollama is not available at localhost:11434. Skipping intent test.");
+        
+        Path path = Paths.get(INTENT_COMPUTE_BIRTH_YEAR_SCRUM);
+        
+        // This test validates that the intent block is processed without errors
+        // The actual output will depend on the LLM's code generation
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             PrintStream out = new PrintStream(baos)) {
+            System.setOut(out);
+            
+            ScrumLanguage lang = new ScrumLanguage();
+            
+            // Should execute without throwing exceptions
+            // The LLM will generate code that asks for user input, so we need to provide it
+            // For this test, we'll just verify it compiles and preprocesses successfully
+            try (InputStream in = new ByteArrayInputStream("30\n".getBytes())) {
+                System.setIn(in);
+                lang.execute(path);
+                
+                String output = baos.toString();
+                // Output should contain something (the generated code should produce output)
+                assertTrue(output.length() > 0, "Intent-generated code should produce output");
+            }
+        }
+    }
+    
+    /**
+     * Test intent-based API definition with Ollama (runs only if Ollama is available)
+     */
+    @Test
+    void intentBirthYearApiTest() throws Exception {
+        assumeTrue(isOllamaAvailable(), "Ollama is not available at localhost:11434. Skipping intent test.");
+        
+        Path path = Paths.get(INTENT_BIRTH_YEAR_API_SCRUM);
+        
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             PrintStream out = new PrintStream(baos)) {
+            System.setOut(out);
+            
+            ScrumLanguage lang = new ScrumLanguage();
+            lang.execute(path);
+            
+            String output = baos.toString();
+            // API definition should produce some output
+            assertTrue(output.length() > 0, "Intent-generated API code should produce output");
         }
     }
 }

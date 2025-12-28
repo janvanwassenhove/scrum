@@ -93,4 +93,32 @@ public class TokensStack {
 			position++;
 	}
 
+	/**
+	 * Get the next raw token without skipping line breaks or comments.
+	 * Used for special parsing contexts like #INTENT blocks where whitespace matters.
+	 */
+	public Token nextRaw() {
+		if (position < tokens.size()) {
+			return tokens.get(position++);
+		}
+		throw new SyntaxException("Unexpected end of tokens");
+	}
+
+	/**
+	 * Check if there are more raw tokens without skipping line breaks or comments.
+	 */
+	public boolean hasNextRaw() {
+		return position < tokens.size();
+	}
+
+	/**
+	 * Peek at the next raw token without advancing position or skipping.
+	 */
+	public Token peekRaw() {
+		if (position < tokens.size()) {
+			return tokens.get(position);
+		}
+		return null;
+	}
+
 }
