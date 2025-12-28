@@ -32,42 +32,6 @@ jobs:
           java-version: '${{ matrix.java }}'
           distribution: 'temurin'
           cache: 'maven'
-        if: matrix.java != 25
-        
-      - name: Set up JDK 25 (Oracle)
-        if: matrix.java == 25
-        uses: actions/setup-java@v4
-        with:
-          java-version: '25'
-          distribution: 'oracle'
-          cache: 'maven'
-        continue-on-error: true
-        
-      - name: Set up JDK 25 (Temurin EA)
-        if: failure() && matrix.java == 25
-        uses: actions/setup-java@v4
-        with:
-          java-version: '25-ea'
-          distribution: 'temurin'
-          cache: 'maven'
-        continue-on-error: true
-        
-      - name: Set up JDK 25 (Zulu)
-        if: failure() && matrix.java == 25
-        uses: actions/setup-java@v4
-        with:
-          java-version: '25'
-          distribution: 'zulu'
-          cache: 'maven'
-        continue-on-error: true
-        
-      - name: Fall back to JDK 21 for Java 25 matrix
-        if: failure() && matrix.java == 25
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: 'maven'
       
       - name: Determine version
         id: version
@@ -80,17 +44,14 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "Building version: $VERSION"
       
-      - name: Check actual Java version and adjust pom.xml
+      - name: Verify Java installation
         run: |
-          JAVA_VERSION=$(java -version 2>&1 | head -1 | cut -d'"' -f2 | cut -d'.' -f1)
-          echo "Detected Java version: $JAVA_VERSION"
-          
-          if [ "$JAVA_VERSION" != "25" ] && [ "${{ matrix.java }}" = "25" ]; then
-            echo "Java 25 not available, falling back to Java $JAVA_VERSION for compilation"
-            sed -i "s/<java.version>25<\/java.version>/<java.version>$JAVA_VERSION<\/java.version>/" pom.xml
-            sed -i "s/<maven.compiler.source>25<\/maven.compiler.source>/<maven.compiler.source>$JAVA_VERSION<\/maven.compiler.source>/" pom.xml
-            sed -i "s/<maven.compiler.target>25<\/maven.compiler.target>/<maven.compiler.target>$JAVA_VERSION<\/maven.compiler.target>/" pom.xml
-          fi
+          echo "=== Java Installation Verification ==="
+          java -version
+          javac -version
+          echo "Maven Java version:"
+          mvn -version | grep "Java version"
+          echo "================================="
       
       - name: Update version in pom.xml
         if: matrix.primary
@@ -107,13 +68,7 @@ jobs:
           sed -i "s/private static final String BUILD_DATE = \".*\";/private static final String BUILD_DATE = \"$BUILD_DATE\";/" src/scrum/Scrum.java
       
       - name: Build with Maven
-        run: |
-          echo "=== Java and Maven Configuration ==="
-          java -version
-          echo "Maven compiler configuration:"
-          grep -A3 -B3 "maven.compiler" pom.xml || true
-          echo "================================="
-          mvn clean package -DskipTests
+        run: mvn clean package -DskipTests
       
       - name: Build SDK distributions
         if: matrix.primary
