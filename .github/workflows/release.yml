@@ -51,6 +51,22 @@ jobs:
           javac -version
           echo "Maven Java version:"
           mvn -version | grep "Java version"
+          
+          # Check if we actually got Java 25 when requested
+          ACTUAL_JAVA=$(java -version 2>&1 | head -1 | sed 's/.*"\(.*\)".*/\1/' | cut -d'.' -f1)
+          REQUESTED_JAVA="${{ matrix.java }}"
+          
+          echo "Requested: Java $REQUESTED_JAVA"
+          echo "Actual: Java $ACTUAL_JAVA" 
+          
+          if [ "$REQUESTED_JAVA" = "25" ] && [ "$ACTUAL_JAVA" != "25" ]; then
+            echo "Java 25 requested but not available, will use fallback compilation"
+            echo "USE_JAVA_FALLBACK=true" >> $GITHUB_ENV
+            echo "FALLBACK_JAVA_VERSION=$ACTUAL_JAVA" >> $GITHUB_ENV
+          else
+            echo "Using requested Java version"
+            echo "USE_JAVA_FALLBACK=false" >> $GITHUB_ENV
+          fi
           echo "================================="
       
       - name: Update version in pom.xml
@@ -68,7 +84,16 @@ jobs:
           sed -i "s/private static final String BUILD_DATE = \".*\";/private static final String BUILD_DATE = \"$BUILD_DATE\";/" src/scrum/Scrum.java
       
       - name: Build with Maven
-        run: mvn clean package -DskipTests
+        run: |
+          if [ "$USE_JAVA_FALLBACK" = "true" ]; then
+            echo "Building with Java $FALLBACK_JAVA_VERSION fallback (requested Java ${{ matrix.java }})"
+            mvn clean package -DskipTests \
+              -Dmaven.compiler.source=$FALLBACK_JAVA_VERSION \
+              -Dmaven.compiler.target=$FALLBACK_JAVA_VERSION
+          else
+            echo "Building with requested Java ${{ matrix.java }}"
+            mvn clean package -DskipTests
+          fi
       
       - name: Build SDK distributions
         if: matrix.primary
