@@ -191,7 +191,7 @@ To upgrade to a newer version:
 Example code files can be found within [SCRUM Examples](development/examples).
 
 The [SCRUM Examples](development/examples) can be executed and debugged using the [ScrumLanguageTest](test/scrum/ScrumLanguageTest.java).
-The project is built upon Java 21 (LTS).
+The project is built upon Java 25 (LTS).
 
 ### Running from development build
 

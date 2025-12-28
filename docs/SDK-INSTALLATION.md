@@ -21,7 +21,7 @@ Complete guide to installing, configuring, upgrading, and uninstalling the SCRUM
 
 ### Minimum Requirements
 
-- **Java**: Version 21 or higher (LTS recommended)
+- **Java**: Version 25 or higher (LTS recommended)
 - **Operating System**: 
   - Windows 10 or later
   - Linux (any modern distribution)
@@ -46,7 +46,7 @@ sudo apt install openjdk-21-jdk
 
 **Fedora/RHEL**:
 ```bash
-sudo dnf install java-21-openjdk
+sudo dnf install java-25-openjdk
 ```
 
 **macOS (Homebrew)**:
@@ -218,9 +218,9 @@ scrum --version
 # 
 # Version:        1.3.0
 # Build Date:     2025-12-27
-# Java Version:   21.0.5
+# Java Version:   25.0.1
 # Java Vendor:    Oracle Corporation  
-# Java Home:      C:\Program Files\Java\jdk-21
+# Java Home:      C:\Program Files\Java\jdk-25
 # SCRUM_HOME:     C:\scrum
 # 
 # Copyright (c) 2023-2025 Jan Van Wassenhove
@@ -549,7 +549,7 @@ $SCRUM_HOME/uninstall.sh
 
 ### "Java is not installed or not in PATH"
 
-**Solution**: Install Java 21+ and ensure it's in PATH:
+**Solution**: Install Java 25+ and ensure it's in PATH:
 ```bash
 java -version
 ```
@@ -594,11 +594,11 @@ export PATH="/opt/scrum/bin:$PATH"
 
 ---
 
-### "Error: SCRUM requires Java 21 or higher"
+### "Error: SCRUM requires Java 25 or higher"
 
 **Solution**: Upgrade Java:
 - Download from [https://adoptium.net/](https://adoptium.net/)
-- Install Java 21 LTS or later
+- Install Java 25 LTS or later
 - Verify: `java -version`
 
 ---
@@ -635,7 +635,7 @@ To build the SDK from source:
 
 ### Prerequisites
 
-- Java 21 JDK
+- Java 25 JDK
 - Apache Maven 3.8+
 - Git
 

@@ -28,7 +28,7 @@ Implemented a complete, installable SDK distribution system for the SCRUM progra
 **File: [development/scrum.sh](../development/scrum.sh)** (NEW)
 - Shell script for Linux/macOS
 - Auto-detects `SCRUM_HOME` from script location
-- Validates Java installation and version (requires Java 21+)
+- Validates Java installation and version (requires Java 25+)
 - Finds JAR in both development and SDK distribution layouts
 - Passes all arguments to SCRUM runtime
 - Executable permission: 0755
@@ -59,9 +59,9 @@ Implemented a complete, installable SDK distribution system for the SCRUM progra
 Version:        1.3.0
 Build Date:     2025-12-27
 
-Java Version:   21.0.5
+Java Version:   25.0.1
 Java Vendor:    Oracle Corporation
-Java Home:      C:\Program Files\Java\jdk-21
+Java Home:      C:\Program Files\Java\jdk-25
 
 SCRUM_HOME:     C:\Program Files\SCRUM
 
@@ -73,7 +73,7 @@ License: See LICENSE file in distribution
 
 **File: [installers/install.bat](../installers/install.bat)** (NEW)
 - Windows batch installer
-- Validates Java 21+ installation
+- Validates Java 25+ installation
 - Prompts for installation directory (default: `C:\Program Files\SCRUM`)
 - Copies SDK files (bin, lib, examples, docs)
 - Sets `SCRUM_HOME` user environment variable
@@ -127,7 +127,7 @@ License: See LICENSE file in distribution
 **File: [docs/SDK-INSTALLATION.md](../docs/SDK-INSTALLATION.md)** (NEW)
 - Complete installation guide (39 KB, 700+ lines)
 - Sections:
-  - **System Requirements**: Java 21+, OS compatibility, disk space
+  - **System Requirements**: Java 25+, OS compatibility, disk space
   - **Installation**: Automated and manual for all platforms
   - **Verification**: Testing installation success
   - **Configuration**: Environment variables, debug mode
@@ -277,7 +277,7 @@ mvn clean package assembly:single -DskipTests
 **Version Command:**
 ```bash
 java -jar development/scrum.jar --version
-# Output: Version info with SCRUM 1.3.0, Java 21.0.5, etc.
+# Output: Version info with SCRUM 1.3.0, Java 25.0.1, etc.
 ```
 
 **Running Programs:**

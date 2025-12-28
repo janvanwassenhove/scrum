@@ -10,17 +10,17 @@ export SCRUM_HOME="$SCRIPT_DIR"
 # Check if Java is available
 if ! command -v java &> /dev/null; then
     echo "Error: Java is not installed or not in PATH"
-    echo "SCRUM requires Java 21 or higher"
+    echo "SCRUM requires Java 25 or higher"
     echo "Download from: https://adoptium.net/"
     exit 1
 fi
 
-# Check Java version (require 21+)
+# Check Java version (require 25+)
 JAVA_VERSION=$(java -version 2>&1 | head -1 | cut -d'"' -f2 | cut -d'.' -f1)
-if [ "$JAVA_VERSION" -lt 21 ]; then
-    echo "Error: SCRUM requires Java 21 or higher"
+if [ "$JAVA_VERSION" -lt 25 ]; then
+    echo "Error: SCRUM requires Java 25 or higher"
     echo "Current Java version: $(java -version 2>&1 | head -1)"
-    echo "Download Java 21+ from: https://adoptium.net/"
+    echo "Download Java 25+ from: https://adoptium.net/"
     exit 1
 fi
 

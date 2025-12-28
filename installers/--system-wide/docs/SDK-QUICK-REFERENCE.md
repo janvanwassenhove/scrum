@@ -99,7 +99,7 @@ $SCRUM_HOME/uninstall.sh
 ## Troubleshooting
 
 ```bash
-# Verify Java version (requires 21+)
+# Verify Java version (requires 25+)
 java -version
 
 # Check SCRUM_HOME

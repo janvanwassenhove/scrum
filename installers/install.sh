@@ -20,10 +20,10 @@ echo ""
 if ! command -v java &> /dev/null; then
     echo "[ERROR] Java is not installed or not in PATH"
     echo ""
-    echo "SCRUM requires Java 21 or higher."
+    echo "SCRUM requires Java 25 or higher."
     echo "Installation instructions:"
     echo "  - Ubuntu/Debian: sudo apt install openjdk-21-jdk"
-    echo "  - Fedora/RHEL:   sudo dnf install java-21-openjdk"
+    echo "  - Fedora/RHEL:   sudo dnf install java-25-openjdk"
     echo "  - macOS:         brew install openjdk@21"
     echo "  - Or download:   https://adoptium.net/"
     echo ""
@@ -34,10 +34,10 @@ fi
 JAVA_VERSION=$(java -version 2>&1 | head -1 | cut -d'"' -f2)
 JAVA_MAJOR=$(echo "$JAVA_VERSION" | cut -d'.' -f1)
 
-if [ "$JAVA_MAJOR" -lt 21 ]; then
-    echo "[ERROR] SCRUM requires Java 21 or higher"
+if [ "$JAVA_MAJOR" -lt 25 ]; then
+    echo "[ERROR] SCRUM requires Java 25 or higher"
     echo "Current Java version: $JAVA_VERSION"
-    echo "Download Java 21+ from: https://adoptium.net/"
+    echo "Download Java 25+ from: https://adoptium.net/"
     echo ""
     exit 1
 fi

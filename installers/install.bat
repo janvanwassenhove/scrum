@@ -60,7 +60,7 @@ java -version >nul 2>&1
 if errorlevel 1 (
     echo [ERROR] Java is not installed or not in PATH
     echo.
-    echo SCRUM requires Java 21 or higher.
+    echo SCRUM requires Java 25 or higher.
     echo Download from: https://adoptium.net/
     echo.
     pause
@@ -73,10 +73,10 @@ for /f "tokens=3" %%g in ('java -version 2^>^&1 ^| findstr /i "version"') do (
 )
 set JAVA_VERSION=%JAVA_VERSION:"=%
 for /f "tokens=1 delims=." %%a in ("%JAVA_VERSION%") do set JAVA_MAJOR=%%a
-if %JAVA_MAJOR% LSS 21 (
-    echo [ERROR] SCRUM requires Java 21 or higher
+if %JAVA_MAJOR% LSS 25 (
+    echo [ERROR] SCRUM requires Java 25 or higher
     echo Current Java version: %JAVA_VERSION%
-    echo Download Java 21+ from: https://adoptium.net/
+    echo Download Java 25+ from: https://adoptium.net/
     echo.
     pause
     exit /b 1
@@ -118,16 +118,55 @@ if not exist "%INSTALL_DIR%" (
 
 REM Copy SDK files
 echo Copying SDK files...
-xcopy /E /I /Y "%SDK_ROOT%\bin" "%INSTALL_DIR%\bin" >nul
-xcopy /E /I /Y "%SDK_ROOT%\lib" "%INSTALL_DIR%\lib" >nul
-xcopy /E /I /Y "%SDK_ROOT%\examples" "%INSTALL_DIR%\examples" >nul
+REM Create directories
+mkdir "%INSTALL_DIR%\bin" 2>nul
+mkdir "%INSTALL_DIR%\lib" 2>nul
+mkdir "%INSTALL_DIR%\examples" 2>nul
+mkdir "%INSTALL_DIR%\docs" 2>nul
+
+REM Copy launcher scripts to bin
+copy /Y "%SDK_ROOT%\development\scrum.bat" "%INSTALL_DIR%\bin\" >nul
+copy /Y "%SDK_ROOT%\development\scrum.ps1" "%INSTALL_DIR%\bin\" >nul
+if exist "%SDK_ROOT%\development\scrum.sh" copy /Y "%SDK_ROOT%\development\scrum.sh" "%INSTALL_DIR%\bin\" >nul
+
+REM Copy JAR file to lib
+if exist "%SDK_ROOT%\target\scrum-language-*.jar" (
+    copy /Y "%SDK_ROOT%\target\scrum-language-*.jar" "%INSTALL_DIR%\lib\" >nul
+) else if exist "%SDK_ROOT%\development\scrum.jar" (
+    copy /Y "%SDK_ROOT%\development\scrum.jar" "%INSTALL_DIR%\lib\" >nul
+) else (
+    echo [WARNING] No JAR file found in target or development directory
+)
+
+REM Copy examples
+xcopy /E /I /Y "%SDK_ROOT%\development\examples" "%INSTALL_DIR%\examples" >nul
+
+REM Copy docs
 xcopy /E /I /Y "%SDK_ROOT%\docs" "%INSTALL_DIR%\docs" >nul
+
+REM Copy license and readme
 copy /Y "%SDK_ROOT%\LICENSE" "%INSTALL_DIR%\" >nul
 copy /Y "%SDK_ROOT%\README.md" "%INSTALL_DIR%\" >nul
 
+REM Create updated launcher script that references lib directory
+echo @echo off > "%INSTALL_DIR%\bin\scrum.bat"
+echo setlocal >> "%INSTALL_DIR%\bin\scrum.bat"
+echo. >> "%INSTALL_DIR%\bin\scrum.bat"
+echo REM Set SCRUM_HOME to the installation directory >> "%INSTALL_DIR%\bin\scrum.bat"
+echo for %%%%i in ("%%~dp0..") do set "SCRUM_HOME=%%%%~fi" >> "%INSTALL_DIR%\bin\scrum.bat"
+echo. >> "%INSTALL_DIR%\bin\scrum.bat"
+echo REM Find the JAR file in lib directory >> "%INSTALL_DIR%\bin\scrum.bat"
+echo for %%%%f in ("%%SCRUM_HOME%%\lib\*.jar") do ( >> "%INSTALL_DIR%\bin\scrum.bat"
+echo     if exist "%%%%f" ( >> "%INSTALL_DIR%\bin\scrum.bat"
+echo         java -jar "%%%%f" %%* >> "%INSTALL_DIR%\bin\scrum.bat"
+echo         exit /b %%ERRORLEVEL%% >> "%INSTALL_DIR%\bin\scrum.bat"
+echo     ^) >> "%INSTALL_DIR%\bin\scrum.bat"
+echo ^) >> "%INSTALL_DIR%\bin\scrum.bat"
+echo. >> "%INSTALL_DIR%\bin\scrum.bat"
+echo echo Error: No SCRUM JAR file found in %%SCRUM_HOME%%\lib >> "%INSTALL_DIR%\bin\scrum.bat"
+echo exit /b 1 >> "%INSTALL_DIR%\bin\scrum.bat"
 echo [OK] SDK files copied
 echo.
-
 REM Set SCRUM_HOME environment variable (User level)
 echo Setting SCRUM_HOME environment variable...
 setx SCRUM_HOME "%INSTALL_DIR%" >nul

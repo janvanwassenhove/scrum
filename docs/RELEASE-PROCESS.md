@@ -6,7 +6,7 @@ This guide describes how to release a new version of the SCRUM Programming Langu
 
 - Git installed and configured
 - Maven 3.6+ installed
-- Java 21+ installed
+- Java 25+ installed
 - Write access to the GitHub repository
 - GitHub Personal Access Token (for automated releases)
 
@@ -275,7 +275,7 @@ If a release has critical issues:
 mvn clean package -X
 
 # Check Java version
-java -version  # Must be 21+
+java -version  # Must be 25+
 
 # Check Maven version
 mvn -version  # Must be 3.6+
@@ -315,7 +315,7 @@ on:
 
 The workflow:
 1. Checks out code
-2. Sets up Java 21
+2. Sets up Java 25
 3. Builds with Maven
 4. Runs tests
 5. Creates GitHub Release

@@ -64,9 +64,9 @@ scrum -v
 Version:        1.3.0
 Build Date:     2025-12-27
 
-Java Version:   21.0.5
+Java Version:   25.0.1
 Java Vendor:    Oracle Corporation
-Java Home:      C:\Program Files\Java\jdk-21
+Java Home:      C:\Program Files\Java\jdk-25
 
 SCRUM_HOME:     C:\scrum
 
@@ -284,7 +284,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          java-version: '21'
+          java-version: '25'
           
       - name: Install SCRUM SDK
         run: |
@@ -375,7 +375,7 @@ source ~/.bashrc     # or ~/.zshrc
 
 #### Java Issues
 ```bash
-# Check Java version (requires 21+)
+# Check Java version (requires 25+)
 java -version
 
 # Check Java in PATH

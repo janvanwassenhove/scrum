@@ -14,20 +14,20 @@ $env:SCRUM_HOME = $ScriptDir
 $javaCmd = Get-Command java -ErrorAction SilentlyContinue
 if (-not $javaCmd) {
     Write-Host "Error: Java is not installed or not in PATH" -ForegroundColor Red
-    Write-Host "SCRUM requires Java 21 or higher"
+    Write-Host "SCRUM requires Java 25 or higher"
     Write-Host "Download from: https://adoptium.net/"
     exit 1
 }
 
-# Check Java version (require 21+)
+# Check Java version (require 25+)
 $javaVersionOutput = & java -version 2>&1
 $versionLine = $javaVersionOutput | Select-String "version" | Select-Object -First 1
 if ($versionLine -match '"(\d+)') {
     $javaMajor = [int]$matches[1]
-    if ($javaMajor -lt 21) {
-        Write-Host "Error: SCRUM requires Java 21 or higher" -ForegroundColor Red
+    if ($javaMajor -lt 25) {
+        Write-Host "Error: SCRUM requires Java 25 or higher" -ForegroundColor Red
         Write-Host "Current Java version: $($versionLine -replace '.*version "([^"]+)".*', '$1')"
-        Write-Host "Download Java 21+ from: https://adoptium.net/"
+        Write-Host "Download Java 25+ from: https://adoptium.net/"
         exit 1
     }
 }

@@ -22,10 +22,10 @@ try {
     $javaVersion = & java -version 2>&1 | Select-String "version" | ForEach-Object { $_ -replace '.*"([^"]+)".*', '$1' }
     $javaMajor = ($javaVersion -split '\.')[0]
     
-    if ([int]$javaMajor -lt 21) {
-        Write-Host "[ERROR] SCRUM requires Java 21 or higher" -ForegroundColor Red
+    if ([int]$javaMajor -lt 25) {
+        Write-Host "[ERROR] SCRUM requires Java 25 or higher" -ForegroundColor Red
         Write-Host "Current Java version: $javaVersion" -ForegroundColor Yellow
-        Write-Host "Download Java 21+ from: https://adoptium.net/"
+        Write-Host "Download Java 25+ from: https://adoptium.net/"
         Write-Host ""
         Read-Host "Press Enter to exit"
         exit 1
@@ -36,7 +36,7 @@ try {
 } catch {
     Write-Host "[ERROR] Java is not installed or not in PATH" -ForegroundColor Red
     Write-Host ""
-    Write-Host "SCRUM requires Java 21 or higher."
+    Write-Host "SCRUM requires Java 25 or higher."
     Write-Host "Download from: https://adoptium.net/"
     Write-Host ""
     Read-Host "Press Enter to exit"
