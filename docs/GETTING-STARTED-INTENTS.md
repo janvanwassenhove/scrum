@@ -54,11 +54,11 @@ EPIC "HelloWorldApp"
         #INTENT
         I want to create a simple greeting that displays "Hello from SCRUM!" to the user.
         #END INTENT
-    END
+    END OF STORY
+END OF EPIC
 
-    INSTANTIATE HelloWorldApp AS app
-    app.Greeting
-END
+app IS NEW HelloWorldApp
+app::Greeting USING []
 ```
 
 Run it:
@@ -82,11 +82,11 @@ EPIC "BirthYearCalculator"
         The input will be used to calculate and display their birth year 
         based on the current year 2024.
         #END INTENT
-    END
+    END OF STORY
+END OF EPIC
 
-    INSTANTIATE BirthYearCalculator AS calculator
-    calculator.ComputeBirthYear
-END
+calculator IS NEW BirthYearCalculator
+calculator::ComputeBirthYear USING []
 ```
 
 ## How It Works

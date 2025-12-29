@@ -119,11 +119,11 @@ EPIC "HelloWorldApp"
         #INTENT
         I want to create a simple greeting that displays "Hello from SCRUM!" to the user.
         #END INTENT
-    END
+    END OF STORY
+END OF EPIC
 
-    INSTANTIATE HelloWorldApp AS app
-    app.Greeting
-END
+app IS NEW HelloWorldApp
+app::Greeting USING []
 ```
 
 **The `#INTENT` block becomes real executable code automatically!** 🤖✨
